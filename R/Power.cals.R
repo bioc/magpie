@@ -237,10 +237,10 @@ Power.cal_strata <- function(res_all2,
             paste0("(", round(cuts[2], 2), ", ", round(cuts[3], 2), "]"),
             paste0("(", round(cuts[3], 2), ", Inf]")
         ), length(N.reps)), levels = c(
-          paste0("(0, ", round(cuts[1], 2), "]"),
-          paste0("(", round(cuts[1], 2), ", ", round(cuts[2], 2), "]"),
-          paste0("(", round(cuts[2], 2), ", ", round(cuts[3], 2), "]"),
-          paste0("(", round(cuts[3], 2), ", Inf]")
+            paste0("(0, ", round(cuts[1], 2), "]"),
+            paste0("(", round(cuts[1], 2), ", ", round(cuts[2], 2), "]"),
+            paste0("(", round(cuts[2], 2), ", ", round(cuts[3], 2), "]"),
+            paste0("(", round(cuts[3], 2), ", Inf]")
         ))
     )
     TPR.res <- data.frame(
@@ -253,15 +253,15 @@ Power.cal_strata <- function(res_all2,
             )
         })),
         strata = factor(rep(c(
-          paste0("(0, ", round(cuts[1], 2), "]"),
-          paste0("(", round(cuts[1], 2), ", ", round(cuts[2], 2), "]"),
-          paste0("(", round(cuts[2], 2), ", ", round(cuts[3], 2), "]"),
-          paste0("(", round(cuts[3], 2), ", Inf]")
+            paste0("(0, ", round(cuts[1], 2), "]"),
+            paste0("(", round(cuts[1], 2), ", ", round(cuts[2], 2), "]"),
+            paste0("(", round(cuts[2], 2), ", ", round(cuts[3], 2), "]"),
+            paste0("(", round(cuts[3], 2), ", Inf]")
         ), length(N.reps)), levels = c(
-          paste0("(0, ", round(cuts[1], 2), "]"),
-          paste0("(", round(cuts[1], 2), ", ", round(cuts[2], 2), "]"),
-          paste0("(", round(cuts[2], 2), ", ", round(cuts[3], 2), "]"),
-          paste0("(", round(cuts[3], 2), ", Inf]")
+            paste0("(0, ", round(cuts[1], 2), "]"),
+            paste0("(", round(cuts[1], 2), ", ", round(cuts[2], 2), "]"),
+            paste0("(", round(cuts[2], 2), ", ", round(cuts[3], 2), "]"),
+            paste0("(", round(cuts[3], 2), ", Inf]")
         ))
     )
     FDC.res <- data.frame(
@@ -274,15 +274,15 @@ Power.cal_strata <- function(res_all2,
             )
         })),
         strata = factor(rep(c(
-          paste0("(0, ", round(cuts[1], 2), "]"),
-          paste0("(", round(cuts[1], 2), ", ", round(cuts[2], 2), "]"),
-          paste0("(", round(cuts[2], 2), ", ", round(cuts[3], 2), "]"),
-          paste0("(", round(cuts[3], 2), ", Inf]")
+            paste0("(0, ", round(cuts[1], 2), "]"),
+            paste0("(", round(cuts[1], 2), ", ", round(cuts[2], 2), "]"),
+            paste0("(", round(cuts[2], 2), ", ", round(cuts[3], 2), "]"),
+            paste0("(", round(cuts[3], 2), ", Inf]")
         ), length(N.reps)), levels = c(
-          paste0("(0, ", round(cuts[1], 2), "]"),
-          paste0("(", round(cuts[1], 2), ", ", round(cuts[2], 2), "]"),
-          paste0("(", round(cuts[2], 2), ", ", round(cuts[3], 2), "]"),
-          paste0("(", round(cuts[3], 2), ", Inf]")
+            paste0("(0, ", round(cuts[1], 2), "]"),
+            paste0("(", round(cuts[1], 2), ", ", round(cuts[2], 2), "]"),
+            paste0("(", round(cuts[2], 2), ", ", round(cuts[3], 2), "]"),
+            paste0("(", round(cuts[3], 2), ", Inf]")
         ))
     )
     Precision.res <- data.frame(
@@ -295,15 +295,15 @@ Power.cal_strata <- function(res_all2,
             )
         })),
         strata = factor(rep(c(
-          paste0("(0, ", round(cuts[1], 2), "]"),
-          paste0("(", round(cuts[1], 2), ", ", round(cuts[2], 2), "]"),
-          paste0("(", round(cuts[2], 2), ", ", round(cuts[3], 2), "]"),
-          paste0("(", round(cuts[3], 2), ", Inf]")
+            paste0("(0, ", round(cuts[1], 2), "]"),
+            paste0("(", round(cuts[1], 2), ", ", round(cuts[2], 2), "]"),
+            paste0("(", round(cuts[2], 2), ", ", round(cuts[3], 2), "]"),
+            paste0("(", round(cuts[3], 2), ", Inf]")
         ), length(N.reps)), levels = c(
-          paste0("(0, ", round(cuts[1], 2), "]"),
-          paste0("(", round(cuts[1], 2), ", ", round(cuts[2], 2), "]"),
-          paste0("(", round(cuts[2], 2), ", ", round(cuts[3], 2), "]"),
-          paste0("(", round(cuts[3], 2), ", Inf]")
+            paste0("(0, ", round(cuts[1], 2), "]"),
+            paste0("(", round(cuts[1], 2), ", ", round(cuts[2], 2), "]"),
+            paste0("(", round(cuts[2], 2), ", ", round(cuts[3], 2), "]"),
+            paste0("(", round(cuts[3], 2), ", Inf]")
         ))
     )
 
