@@ -231,12 +231,17 @@ Power.cal_strata <- function(res_all2,
                 flag = flag
             )
         })),
-        strata = rep(c(
+        strata = factor(rep(c(
             paste0("(0, ", round(cuts[1], 2), "]"),
             paste0("(", round(cuts[1], 2), ", ", round(cuts[2], 2), "]"),
             paste0("(", round(cuts[2], 2), ", ", round(cuts[3], 2), "]"),
             paste0("(", round(cuts[3], 2), ", Inf]")
-        ), length(N.reps))
+        ), length(N.reps)), levels = c(
+          paste0("(0, ", round(cuts[1], 2), "]"),
+          paste0("(", round(cuts[1], 2), ", ", round(cuts[2], 2), "]"),
+          paste0("(", round(cuts[2], 2), ", ", round(cuts[3], 2), "]"),
+          paste0("(", round(cuts[3], 2), ", Inf]")
+        ))
     )
     TPR.res <- data.frame(
         N.rep = rep(N.reps, each = 4),
@@ -247,12 +252,17 @@ Power.cal_strata <- function(res_all2,
                 flag = flag
             )
         })),
-        strata = rep(c(
-            paste0("(0, ", round(cuts[1], 2), "]"),
-            paste0("(", round(cuts[1], 2), ", ", round(cuts[2], 2), "]"),
-            paste0("(", round(cuts[2], 2), ", ", round(cuts[3], 2), "]"),
-            paste0("(", round(cuts[3], 2), ", Inf]")
-        ), length(N.reps))
+        strata = factor(rep(c(
+          paste0("(0, ", round(cuts[1], 2), "]"),
+          paste0("(", round(cuts[1], 2), ", ", round(cuts[2], 2), "]"),
+          paste0("(", round(cuts[2], 2), ", ", round(cuts[3], 2), "]"),
+          paste0("(", round(cuts[3], 2), ", Inf]")
+        ), length(N.reps)), levels = c(
+          paste0("(0, ", round(cuts[1], 2), "]"),
+          paste0("(", round(cuts[1], 2), ", ", round(cuts[2], 2), "]"),
+          paste0("(", round(cuts[2], 2), ", ", round(cuts[3], 2), "]"),
+          paste0("(", round(cuts[3], 2), ", Inf]")
+        ))
     )
     FDC.res <- data.frame(
         N.rep = rep(N.reps, each = 4),
@@ -263,12 +273,17 @@ Power.cal_strata <- function(res_all2,
                 flag = flag
             )
         })),
-        strata = rep(c(
-            paste0("(0, ", round(cuts[1], 2), "]"),
-            paste0("(", round(cuts[1], 2), ", ", round(cuts[2], 2), "]"),
-            paste0("(", round(cuts[2], 2), ", ", round(cuts[3], 2), "]"),
-            paste0("(", round(cuts[3], 2), ", Inf]")
-        ), length(N.reps))
+        strata = factor(rep(c(
+          paste0("(0, ", round(cuts[1], 2), "]"),
+          paste0("(", round(cuts[1], 2), ", ", round(cuts[2], 2), "]"),
+          paste0("(", round(cuts[2], 2), ", ", round(cuts[3], 2), "]"),
+          paste0("(", round(cuts[3], 2), ", Inf]")
+        ), length(N.reps)), levels = c(
+          paste0("(0, ", round(cuts[1], 2), "]"),
+          paste0("(", round(cuts[1], 2), ", ", round(cuts[2], 2), "]"),
+          paste0("(", round(cuts[2], 2), ", ", round(cuts[3], 2), "]"),
+          paste0("(", round(cuts[3], 2), ", Inf]")
+        ))
     )
     Precision.res <- data.frame(
         N.rep = rep(N.reps, each = 4),
@@ -279,12 +294,17 @@ Power.cal_strata <- function(res_all2,
                 flag = flag
             )
         })),
-        strata = rep(c(
-            paste0("(0, ", round(cuts[1], 2), "]"),
-            paste0("(", round(cuts[1], 2), ", ", round(cuts[2], 2), "]"),
-            paste0("(", round(cuts[2], 2), ", ", round(cuts[3], 2), "]"),
-            paste0("(", round(cuts[3], 2), ", Inf]")
-        ), length(N.reps))
+        strata = factor(rep(c(
+          paste0("(0, ", round(cuts[1], 2), "]"),
+          paste0("(", round(cuts[1], 2), ", ", round(cuts[2], 2), "]"),
+          paste0("(", round(cuts[2], 2), ", ", round(cuts[3], 2), "]"),
+          paste0("(", round(cuts[3], 2), ", Inf]")
+        ), length(N.reps)), levels = c(
+          paste0("(0, ", round(cuts[1], 2), "]"),
+          paste0("(", round(cuts[1], 2), ", ", round(cuts[2], 2), "]"),
+          paste0("(", round(cuts[2], 2), ", ", round(cuts[3], 2), "]"),
+          paste0("(", round(cuts[3], 2), ", Inf]")
+        ))
     )
 
     Power.list_strata[["FDR"]] <- dcast(FDR.res, N.rep ~ strata, value.var = "fdr")
