@@ -1,0 +1,45 @@
+Package: PAM
+Type: Package
+Title: Power Analysis for MeRIP-seq Data Under Various Study Designs
+Version: 0.1.0
+Authors@R: c(person(given = "Daoyu",
+                    family = "Duan",
+                    role = c("aut", "cre"),
+                    email = "dxd429@case.edu"),
+             person(given = "Zhenxing",
+                    family = "Guo",
+                    role = c("aut"),
+                    email = "guozhenxing@cuhk.edu.cn"))
+Description: This package aims to perform power analysis for the MeRIP-seq study. It calculates FDR, FDC,
+ power, and precision under various study design parameters, including but not limited to 
+ sample size, sequencing depth, and testing method. It can also output results into .xlsx files or 
+ produce corresponding figures of choice. 
+License: MIT + file LICENSE
+Encoding: UTF-8
+biocViews: Epitranscriptomics, DifferentialMethylation, Sequencing, RNASeq, Software
+RoxygenNote: 7.2.1
+Imports: 
+    utils,
+    rtracklayer,
+    Matrix,
+    matrixStats,
+    stats,
+    S4Vectors,
+    methods,
+    graphics,
+    GenomicRanges,
+    GenomicFeatures,
+    IRanges,
+    Rsamtools,
+    AnnotationDbi,
+    aod,
+    BiocParallel,
+    DESeq2,
+    openxlsx,
+    RColorBrewer,
+    reshape2,
+    TRESS
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
