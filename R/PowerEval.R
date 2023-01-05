@@ -126,11 +126,11 @@ PowerEval <- function(Input.file,
 
 
     ######### 3. Bin-level data to region-level data
-    Candidates <- CallCandidates(
+    Candidates <- TRESS::CallCandidates(
         Counts = allBins$binCount,
         bins = allBins$bins
     )
-    Candidates <- filterRegions(Candidates)
+    Candidates <- TRESS::filterRegions(Candidates)
 
     # strata_list = GetStrata(do.call("rbind",
     #                                 replicate(round(1/bam_factor),

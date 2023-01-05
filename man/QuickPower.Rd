@@ -30,6 +30,6 @@ This function quickly outputs pre-calculated power evaluation results from four 
 }
 \examples{
 \donttest{
-power.test <- QuickPower(dataset = 'GSE46705')
+power.test <- QuickPower(dataset = "GSE46705")
 }
 }
