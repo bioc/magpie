@@ -17,7 +17,6 @@ ResSD <- function(N.reps,
         Candidates = Candidates,
         sd_multi,
         Test_method = Test_method,
-        thre = thre,
         model_dist = model_dist
     )
     PVALS <- lapply(res_all2, FUN = function(x) vapply(x, FUN = function(y) y[[1]], numeric(length(x[[1]][[1]]))))

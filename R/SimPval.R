@@ -7,7 +7,6 @@ SimPval <- function(N.reps.Ctrl,
                     Candidates,
                     sd_multi,
                     Test_method,
-                    thre,
                     model_dist) {
     PVALS <- vector("list", length = length(N.reps.Ctrl))
     for (i in seq_len(length(N.reps.Ctrl))) {
@@ -39,8 +38,7 @@ SimPval <- function(N.reps.Ctrl,
                 Contrast = Contrast,
                 sd_multi,
                 seed,
-                Test_method = Test_method,
-                thre = thre
+                Test_method = Test_method
             )
         })
         PVALS[[i]] <- res_all

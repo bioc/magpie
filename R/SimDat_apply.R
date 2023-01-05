@@ -10,8 +10,7 @@ SimDat_apply <- function(nreps,
                          Contrast,
                          sd_multi,
                          seed,
-                         Test_method,
-                         thre) {
+                         Test_method) {
     res.sim <- SimDat(
         nreps = nreps,
         nsites = nsites,
@@ -61,7 +60,7 @@ SimDat_apply <- function(nreps,
 
         #####
     }
-    sig_ind <- which(res.test$padj < thre)
+    sig_ind <- which(res.test$padj < 0.05)
 
     counts_test <- res.sim$counts[sig_ind, ]
     # print(sig_ind)
