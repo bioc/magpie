@@ -11,145 +11,178 @@ package: PAM
 output:
   BiocStyle::html_document
 abstract: |
-  This package aims to perform power analysis for the MeRIP-seq study. It calculates FDR, FDC, power, and precision under various study design parameters, including but not limited to sample size, sequencing depth, and testing method. It can also output results into .xlsx files or produce corresponding figures of choice.
+  This package aims to perform power analysis for the MeRIP-Seq study. It calculates FDR, FDC, power, and precision under various study design parameters, including but not limited to sample size, sequencing depth, and testing method. It can also output results into .xlsx files or produce corresponding figures of choice.
 vignette: |
   %\VignetteIndexEntry{PAM Package User's Guide}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
+\tableofContents
+
 # Introduction
-The fast advancing single cell RNA sequencing (scRNA-seq) technology enables transcriptome study in heterogeneous tissues at a single cell level. The initial important step of analyzing scRNA-seq data is to accurately annotate cell labels. We present a neural-network based cell annotation method `NeuCA`. 
-When closely correlated cell types exist, `NeuCA` uses the cell type tree information through a hierarchical structure of neural networks to improve annotation accuracy. Feature selection is performed in hierarchical structure to further improve classification accuracy. When cell type correlations are not high, a feed-forward neural network is adopted.
+## Background
+MeRIP-Seq (methylated RNA immunoprecipitation followed by sequencing) is a method used to study the epigenetic regulation of gene expression by identifying methylated RNA molecules in a sample. It involves immunoprecipitation of methylated RNA using an antibody specific for methylated nucleotides, followed by high-throughput sequencing of the immunoprecipitated RNA. The resulting data provides a snapshot of the methylation status of RNA molecules at a specific point in time, allowing researchers to investigate the role of methylation in the regulation of gene expression and other biological processes. MeRIP-Seq data is typically analyzed using computational tools to identify differentially methylated regions (DMRs) and to infer their biological functions.
 
-`NeuCA` depends on the following packages:
+MeRIP-Seq experiments can be costly due to the high cost of sequencing. As a result, it is important to carefully consider sample size during the study design process in order to ensure that the experiment is adequately powered to detect differentially methylated RNA (DMR) regions. Challenges in power calculation for MeRIP-Seq experiments include:
 
-* `r CRANpkg("keras")`, for neural-network interface in _R_,
-* `r Biocpkg("limma")`, for linear model framework and testing markers,
-* `r Biocpkg("SingleCellExperiment")`, for data organization formatting,
-* `r CRANpkg("e1071")`, for probability and predictive functions.
+* Input expression level of the RNA molecules being analyzed. Detection accuracy tends to be higher for DMR regions with high input expression levels, so low input expression can undermine the statistical power of the experiment.
 
+* The choice of DMR detection method. There are various methods available for detecting DMRs with different distribution assumptions and distinct performance characteristics. As a result, the power evaluation results for a MeRIP-Seq experiment may vary depending on the analysis method that is used.
 
-# Preparing NeuCA input files: `SingleCellExperiment` class
-The scRNA-seq data input for `NeuCA` must be objects of the _Bioconductor_ `r Biocpkg("SingleCellExperiment")`. You may need to read corresponding vignettes on how to create a SingleCellExperiment from your own data. An example is provided here to show how to do that, but please note this is not a comprehensive guidance for `r Biocpkg("SingleCellExperiment")`.
+In order to address the challenges associated with power calculation for MeRIP-Seq data, we have developed the R package PAM, a simulation-based tool for performing power calculations on MeRIP-Seq data. PAM has two main functions:
 
+* Power calculation: Given a MeRIP-Seq dataset, various experimental scenarios, and a selected test method, PAM is able to calculate the statistical power of the experiment and output the results.
 
-**Step 1**: Load in example scRNA-seq data.
+* Results preservation and visualization: PAM is able to save the results of the power calculation as an Excel file, and it can also produce comprehensive figures that allow the user to visualize the results.
 
-We are using two example datasets here: `Baron_scRNA` and `Seg_scRNA`. `Baron_scRNA` is a droplet(inDrop)-based, single-cell RNA-seq data generated from pancrease ([Baron et al.](https://doi.org/10.1016/j.cels.2016.08.011)). Around 10,000 human and 2,000 mouse pancreatic cells from four cadaveric donors and two strains of mice were sequenced. `Seg_scRNA` is a Smart-Seq2 based, single-cell RNA-seq dataset ([Segerstolpe et al.](https://doi.org/10.1016/j.cmet.2016.08.020)). It has thousands of human islet cells from healthy and type-2 diabetic donors. A total of 3,386 cells were collected, with around 350 cells from each donor. Here, subsets of these two datasets (with cell type labels for each cell) were included as examples.
-```{r, eval = TRUE, message = FALSE}
-library(NeuCA)
-data("Baron_scRNA")
-data("Seg_scRNA")
+## Installation 
+From GitHub: 
+
+```{r, eval = FALSE, warning=FALSE, message=FALSE}
+install.packages("devtools") # if you have not installed "devtools" package
+library(devtools)
+install_github("https://github.com/dxd429/PAM", 
+               build_vignettes = TRUE)
 ```
 
-**Step 2a**: Prepare training data as a SingleCellExperiment object. 
-```{r, eval = TRUE, message = FALSE}
-Baron_anno <- data.frame(Baron_true_cell_label, row.names = colnames(Baron_counts))
-Baron_sce <- SingleCellExperiment(
-    assays = list(normcounts = as.matrix(Baron_counts)),
-    colData = Baron_anno
-)
-# use gene names as feature symbols
-rowData(Baron_sce)$feature_symbol <- rownames(Baron_sce)
-# remove features with duplicated names
-Baron_sce <- Baron_sce[!duplicated(rownames(Baron_sce)), ]
+From Bioconductor:
+
+```{r, eval = FALSE, warning=FALSE, message=FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+# The following initializes usage of Bioc devel
+#BiocManager::install(version='devel')
+BiocManager::install("PAM")
 ```
 
+To view the package vignette in HTML format, run the following lines in R:
 
-**Step 2b**: Similarly, prepare testing data as a SingleCellExperiment object. Note the true cell type labels are not necessary (and of course often not available). 
-```{r, eval = TRUE, message = FALSE}
-Seg_anno <- data.frame(Seg_true_cell_label, row.names = colnames(Seg_counts))
-Seg_sce <- SingleCellExperiment(
-    assays = list(normcounts = as.matrix(Seg_counts)),
-    colData = Seg_anno
-)
-# use gene names as feature symbols
-rowData(Seg_sce)$feature_symbol <- rownames(Seg_sce)
-# remove features with duplicated names
-Seg_sce <- Seg_sce[!duplicated(rownames(Seg_sce)), ]
+```{r eval=FALSE,warning=FALSE,message=FALSE}
+library(PAM)
+vignette("PAM")
 ```
 
-# NeuCA training and prediction
-**Step 3**: with both training and testing data as objects in `SingleCellExperiment` class, now we can train the classifier in `NeuCA` and predict testing dataset's cell types. This process can be achieved with one line of code: 
+# Input data {#section:InputData}
+In order to best mimic the characteristics of real data, PAM expects users to either provide real MeRIP-Seq datasets or utilize our pre-calculated results. 
 
-```{r, eval = TRUE, message = FALSE}
-predicted.label <- NeuCA(
-    train = Baron_sce, test = Seg_sce,
-    model.size = "big", verbose = FALSE
-)
-# Baron_scRNA is used as the training scRNA-seq dataset
-# Seg_scRNA is used as the testing scRNA-seq dataset
+If users choose to provide their own data, PAM requires paired input and IP BAM files for each replicate of both conditions. Example file names are as follows: "Ctrl1.input.bam" \& Ctrl1.ip.bam", "Ctrl2.input.bam" \& Ctrl2.ip.bam", "Case1.input.bam" \& Case1.ip.bam", "Case2.input.bam" \& Case2.ip.bam". However, users are also encouraged to provide partial data because .BAM files are generally large in size. Note that names of provided .BAM files should be ordered carefully so that samples from different conditions will not be mistreated.    
+
+For illustration purpose, we include a sample dataset (GSE46705) from a study investigating how METTL3-METTL14 complex mediates mammalian nuclear RNA N6-adenosine methylation in our experimental data package ``PAMData`` on Bioconductor, which can be installed with:
+
+```{r, eval= FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("PAMData")
+```
+The data package contains four .BAM files of two wild type (WT) replicates, four .BAM files of two knockdown of complex METTL3 replicates only on chromosome 15, and one genome annotation file. 
+
+In terms of the annotation file, it should be saved in the format of ``*.sqlite``, which can be created with R function ``makeTxDbFromUCSC()`` from Bioconductor package ``GenomicFeatures``:
+
+```{r, eval=FALSE, message=FALSE, warning=FALSE}
+## Use "makeTxDbFromUCSC" function to create an annotation file of hg18
+library(GenomicFeatures)
+hg18 <- makeTxDbFromUCSC(genome="hg18", tablename="knownGene")
+saveDb(hg18, file="hg18.sqlite"))
 ```
 
-`NeuCA` can detect whether highly-correlated cell types exist in the training dataset, and automatically determine if a general neural-network model will be adopted or a marker-guided hierarchical neural-network will be adopted for classification. 
+# Power calculation
+PAM offers two functions for power evaluation: ``PowerEval()`` and ``QuickPower()``. If users prefer to quickly examine the power evaluation results using the built-in datasets, they can use the ``QuickPower()`` function. Otherwise, users can use the ``PowerEval()`` function to perform power evaluation on their own data and customize the simulation settings. The output of these two functions is a list of power measurements under various experimental settings, such as ``FDR``, ``Precision``, and ``Statistical power``.
 
-[**Tuning parameter**] In neural-network, the numbers of layers and nodes are tunable parameters. Users have the option to determine the complexity of the neural-network used in `NeuCA` by specifying the desired `model.size` argument. Here, "big", "medium" and "small" are 3 possible choices, reflecting large, medium and small number of nodes and layers in neural-network, respectively. The model size details are shown in the following Table 1. From our experience, "big" or "medium" can often produce 
-high accuracy predictions.
+## Power evaluation with PowerEval()
+With .BAM files and an annotation file, ``PowerEval()`` enables users to specify number of iterations (``nsim``), sample sizes (``N.reps``), sequencing depths (``depth_factor``), FDR thresholds (``thres``), and testing methods (``Test_method``). Note that one can provide a partial dataset of smaller size, and specify the percentage of the whole genome it occupies (``bam_factor``).
 
-```{r, eval = TRUE, message = FALSE, echo=FALSE}
-library(knitr)
-library(kableExtra)
-df <- data.frame(
-    Cat = c("Small", "Medium", "Big"),
-    Layers = c("3", "4", "5"),
-    Nodes = c("64", "64,128", "64,128,256")
-)
-kable(df,
-    col.names = c("", "Number of layers", "Number of nodes in hidden layers"),
-    escape = FALSE, caption = "Tuning model sizes in the neural-network classifier training."
-) %>%
-    kable_styling(latex_options = "striped")
+Here, we demonstrate the usage of ``PowerEval()`` with the example dataset from R package ``PAMData``:
+
+```{r, eval=FALSE, message=FALSE, warning=FALSE}
+library(PAMData)
+library(PAM)
+###Get the example data
+BAM_path <- GetBAMPath()
+###Call PowerEval()
+power.test <- PowerEval(
+  Input.file = c("Ctrl1.chr15.input.bam", "Ctrl2.chr15.input.bam","Case1.chr15.input.bam", "Case2.chr15.input.bam"),
+  IP.file = c("Ctrl1.chr15.ip.bam", "Ctrl2.chr15.ip.bam","Case1.chr15.ip.bam", "Case2.chr15.ip.bam"),
+  BamDir = BAM_path,
+  annoDir = paste0(BAM_path, "/hg18_chr15.sqlite"),
+  variable = rep(c("Ctrl", "Trt"), each = 2),
+  bam_factor = 0.03,
+  nsim = 10,
+  N.reps = c(2,3,5,7),
+  depth_factor = c(1,2),
+  thres = c(0.01, 0.05, 0.1),
+  Test_method = "TRESS" ## TRESS or exomePeak2
+  )
 ```
 
+## Power evaluation with QuickPower()
+Another power calculation function is ``QuickPower()``. Unlike ``PowerEval()`` which often takes a while to run, ``QuickPower()`` produces results in seconds, calling results of three pre-evaluated GEO datasets:
+* ``GSE46705``: Human HeLa cell line: Two replicates of wild type (WT) and two replicates of knockdown (KD) of complex METTL3.
+* ``GSE55575``: Mouse embryonic fibroblasts: Two replicates of wild type (WT) and four replicates of knockdown (KD) of WTAP.
+* ``GSE94613``: Human leukemia cell line: Four replicates of wild type (WT) and eight replicates of knockdown (KD) of complex METTL3.
 
+Here, we use ``QuickPower()`` to get power evaluation results of ``GSE46705``, tested by ``TRESS``:
 
-# Predicted cell types
-`predicted.label` is a vector of the same length with the number of cells in the testing dataset, containing all cell's predicted cell type. It can be viewed directly: 
-
-```{r, eval = TRUE}
-head(predicted.label)
-table(predicted.label)
-```
-[**Optional**] If you have the true cell type labels for the testing dataset, you may evaluate the predictive performance by a confusion matrix: 
-```{r, eval = TRUE}
-table(predicted.label, Seg_true_cell_label)
-```
-You may also draw a Sankey diagram to visualize the prediction accuracy: 
-
-```{r, eval = TRUE, message = FALSE, echo=F}
-library(networkD3)
-source <- rep(NA, choose(length(unique(Seg_true_cell_label)), 2) + length(unique(Seg_true_cell_label)))
-target <- rep(NA, choose(length(unique(Seg_true_cell_label)), 2) + length(unique(Seg_true_cell_label)))
-value <- rep(NA, choose(length(unique(Seg_true_cell_label)), 2) + length(unique(Seg_true_cell_label)))
-links <- data.frame(source, target, value)
-cfm <- table(predicted.label, Seg_true_cell_label)
-id <- 1
-for (i in 1:ncol(cfm)) {
-    for (j in i:nrow(cfm)) {
-        links[id, 1] <- paste0(colnames(cfm)[i], "_true")
-        links[id, 2] <- paste0(rownames(cfm)[j], "_pred")
-        links[id, 3] <- cfm[j, i]
-        id <- id + 1
-    }
-}
-nodes <- data.frame(
-    name = c(paste0(colnames(cfm), "_true"), paste0(rownames(cfm), "_pred"))
-)
-links$IDsource <- match(links$source, nodes$name) - 1
-links$IDtarget <- match(links$target, nodes$name) - 1
-p <- sankeyNetwork(
-    Links = links, Nodes = nodes,
-    Source = "IDsource", Target = "IDtarget",
-    Value = "value", NodeID = "name",
-    sinksRight = FALSE
-)
-p
+```{r, eval=FALSE, message=FALSE, warning=FALSE}
+power.test <- QuickPower(dataset = "GSE46705", test_method = "TRESS")
 ```
 
+# Results preservation and visualization
+Once users have obtained a list of power measurements using either ``PowerEval()`` or ``QuickPower()``, they can use functions in PAM to save the results as a formatted .xlsx file and generate relevant figures.
 
+## Save results to .xlsx files
+PAM provides two functions: ``WriteToxlsx()`` and ``WriteToxlsx_strata()``, for saving results to a formatted .xlsx file. ``WriteToxlsx()`` allows you to save power measurements for different sample sizes, FDR thresholds, and sequencing depths, while ``WriteToxlsx_strata()`` writes out the results stratified by input expression level and for different sample sizes. Note that we only evaluate power under the original sequencing depth (``depth_factor = 1``) and FDR threshold of 0.05 (``thres = 1``).
 
+Here we save the output from ``QuickPower()`` to corresponding ``.xlsx`` files:
 
+```{r, eval=FALSE, message=FALSE, warning=FALSE}
+###write out .xlsx
+WriteToxlsx(power.test, file = "test_TRESS.xlsx")
+
+###write out stratified results
+WriteToxlsx_strata(power.test, file = "test_strata_TRESS.xlsx")
+```
+The generated ``.xlsx`` files are formatted as follows:
+
+```{r, echo=FALSE}
+tb1 <- data.frame(FDR =  rep("",4),
+                  N_rep = c(2,3,5,7),
+                  s0.01 = c(0.21, 0.11, 0.05, 0.02),
+                  s0.05 = c(0.38, 0.25, 0.13, 0.07),
+                  s0.1 = c(0.46, 0.35, 0.20, 0.13))
+names(tb1) <- c("FDR", "N.rep", "0.01", "0.05", "0.1")
+kableExtra::kable_styling(kableExtra::kable(tb1, align = "l"),latex_options = "HOLD_position")
+```
+
+```{r, echo=FALSE}
+tb2 <- data.frame(FDR =  rep("",4),
+                  N_rep = c(2,3,5,7),
+                  s1 = c(0.10, 0.04, 0.04, 0.01),
+                  s2 = c(0.20, 0.13, 0.07, 0.02),
+                  s3 = c(0.23, 0.12, 0.03, 0.04),
+                  s4 = c(0.80, 0.56, 0.31, 0.17))
+names(tb2) <- c("FDR", "N.rep", "strata 1", "strata 2", "strata 3", "strata 4")
+kableExtra::kable_styling(knitr::kable(tb2, align = "l"),latex_options = "HOLD_position")
+```
+
+## Generate figures
+As mentioned before, PAM also provides four plotting functions: ``PlotRes()``, ``PlotAll()``, ``PlotStrata()``, and ``PlotALL_Strata()``, for figure generating. In general, ``PlotRes()`` and ``PlotStrata()`` produce individual plots, while ``PlotAll()`` and ``PlotALL_Strata()` produce four plots in a 2 x 2 panel.
+
+Again, we demonstrate these four functions with the previous output from `QuickPower()``:
+
+```{r, eval=TRUE, message=FALSE, warning=FALSE}
+###plot FDR under sequencing depth 1x
+PlotRes(power.test, depth_factor = 1, value_option = "FDR")
+
+###plot all in a panel under sequencing depth 1x
+PlotAll(power.test, depth_factor = 1)
+
+###plot a FDR strata result
+PlotStrata(power.test, value_option = "FDR")
+
+###plot all strata results in a panel
+PlotALL_Strata(power.test)
+```
 # Session info {.unnumbered}
 
 ```{r sessionInfo, echo=FALSE}

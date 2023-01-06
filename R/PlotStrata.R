@@ -13,30 +13,14 @@
 #' @export
 #' @importFrom graphics axis par
 #' @examples
-#' \donttest{
+#'
+#' library(PAM)
 #' ### Main function
-#' power.test <- PowerEval(
-#'     Input.file = c(
-#'         "Ctrl1.chr1.input.bam", "Ctrl2.chr1.input.bam",
-#'         "Case1.chr1.input.bam", "Case2.chr1.input.bam"
-#'     ),
-#'     IP.file = c(
-#'         "Ctrl1.chr1.ip.bam", "Ctrl2.chr1.ip.bam",
-#'         "Case1.chr1.ip.bam", "Case2.chr1.ip.bam"
-#'     ),
-#'     BamDir = "./data/GSE46705_split_chr",
-#'     annoDir = "./data/annotation/hg18_chr1.sqlite",
-#'     variable = rep(c("Ctrl", "Trt"), each = 2),
-#'     bam_factor = 0.08,
-#'     nsim = 10,
-#'     N.reps = c(2, 3, 5, 7),
-#'     depth_factor = c(1, 2, 5),
-#'     thres = c(0.01, 0.05, 0.1),
-#'     Test_method = "TRESS"
-#' )
-#' ### plot an individual strata result
+#' power.test <- QuickPower(dataset = "GSE46705", test_method = "TRESS")
+#'
+#' ###plot a FDR strata result
 #' PlotStrata(power.test, value_option = "FDR")
-#' }
+#'
 PlotStrata <- function(Power.list,
                        value_option = "FDR") {
     options(warn = -1)

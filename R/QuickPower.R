@@ -11,6 +11,7 @@
 #'
 #' @param dataset A character specifying the selected dataset. Default is 'GSE46705'. Options are
 #' 'GSE46705', 'GSE55575', 'GSE115105', and 'GSE94613'.
+#' @param test_method A character indicating which DMR calling method to use. Options are "TRESS" and "exomePeak2". Default is "TRESS".
 #'
 #' @return A list of calculated power measurements that will be used as the input of functions \code{\link{WriteToxlsx}}, \code{\link{WriteToxlsx_strata}}, \code{\link{PlotAll}}, \code{\link{PlotRes}}, \code{\link{PlotALL_Strata}}, and \code{\link{PlotStrata}}.
 #' Measurements include:
@@ -21,10 +22,10 @@
 #' @export
 #'
 #' @examples
-#' \donttest{
+#' library(PAM)
 #' power.test <- QuickPower(dataset = "GSE46705")
-#' }
-QuickPower <- function(dataset = "GSE46705") {
-    load(paste0("./data/", dataset, "_res.rdata"))
+#'
+QuickPower <- function(dataset = "GSE46705", test_method = "TRESS") {
+    load(paste0("./data/", dataset, "_", test_method, "_res.rdata"))
     return(power.test)
 }

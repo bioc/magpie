@@ -15,30 +15,14 @@
 #' @export
 #'
 #' @examples
-#' \donttest{
+#'
+#' library(PAM)
 #' ### Main function
-#' power.test <- PowerEval(
-#'     Input.file = c(
-#'         "Ctrl1.chr1.input.bam", "Ctrl2.chr1.input.bam",
-#'         "Case1.chr1.input.bam", "Case2.chr1.input.bam"
-#'     ),
-#'     IP.file = c(
-#'         "Ctrl1.chr1.ip.bam", "Ctrl2.chr1.ip.bam",
-#'         "Case1.chr1.ip.bam", "Case2.chr1.ip.bam"
-#'     ),
-#'     BamDir = "./data/GSE46705_split_chr",
-#'     annoDir = "./data/annotation/hg18_chr1.sqlite",
-#'     variable = rep(c("Ctrl", "Trt"), each = 2),
-#'     bam_factor = 0.08,
-#'     nsim = 10,
-#'     N.reps = c(2, 3, 5, 7),
-#'     depth_factor = c(1, 2, 5),
-#'     thres = c(0.01, 0.05, 0.1),
-#'     Test_method = "TRESS"
-#' )
-#' ### write strata results
-#' WriteToxlsx_strata(power.test, file = "test1_:strata.xlsx")
-#' }
+#' power.test <- QuickPower(dataset = "GSE46705", test_method = "TRESS")
+#'
+#' ###write out .xlsx
+#' WriteToxlsx_strata(power.test, file = "test_strata_TRESS.xlsx")
+#'
 WriteToxlsx_strata <- function(pl, file) {
     pl <- pl[["1x"]][seq(5, 8)]
     wb <- createWorkbook() ##
