@@ -40,21 +40,21 @@
 #' \dontrun{
 #' library(PAMData)
 #' library(PAM)
-#' ###Get the example data
+#' ### Get the example data
 #' BAM_path <- GetBAMPath()
-#' ###Call PowerEval()
+#' ### Call PowerEval()
 #' power.test <- PowerEval(
-#' Input.file = c("Ctrl1.chr15.input.bam", "Ctrl2.chr15.input.bam","Case1.chr15.input.bam", "Case2.chr15.input.bam"),
-#' IP.file = c("Ctrl1.chr15.ip.bam", "Ctrl2.chr15.ip.bam","Case1.chr15.ip.bam", "Case2.chr15.ip.bam"),
-#' BamDir = BAM_path,
-#' annoDir = paste0(BAM_path, "/hg18_chr15.sqlite"),
-#' variable = rep(c("Ctrl", "Trt"), each = 2),
-#' bam_factor = 0.03,
-#' nsim = 10,
-#' N.reps = c(2,3,5,7),
-#' depth_factor = c(1,2),
-#' thres = c(0.01, 0.05, 0.1),
-#' Test_method = "TRESS"
+#'     Input.file = c("Ctrl1.chr15.input.bam", "Ctrl2.chr15.input.bam", "Case1.chr15.input.bam", "Case2.chr15.input.bam"),
+#'     IP.file = c("Ctrl1.chr15.ip.bam", "Ctrl2.chr15.ip.bam", "Case1.chr15.ip.bam", "Case2.chr15.ip.bam"),
+#'     BamDir = BAM_path,
+#'     annoDir = paste0(BAM_path, "/hg18_chr15.sqlite"),
+#'     variable = rep(c("Ctrl", "Trt"), each = 2),
+#'     bam_factor = 0.03,
+#'     nsim = 10,
+#'     N.reps = c(2, 3, 5, 7),
+#'     depth_factor = c(1, 2),
+#'     thres = c(0.01, 0.05, 0.1),
+#'     Test_method = "TRESS"
 #' )
 #' }
 PowerEval <- function(Input.file,

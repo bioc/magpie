@@ -20,7 +20,7 @@
 #' ### Main function
 #' power.test <- QuickPower(dataset = "GSE46705", test_method = "TRESS")
 #'
-#' ###write out .xlsx
+#' ### write out .xlsx
 #' WriteToxlsx_strata(power.test, file = "test_strata_TRESS.xlsx")
 #'
 WriteToxlsx_strata <- function(pl, file) {

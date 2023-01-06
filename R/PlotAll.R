@@ -18,7 +18,7 @@
 #' ### Main function
 #' power.test <- QuickPower(dataset = "GSE46705", test_method = "TRESS")
 #'
-#' ###plot all in a panel under sequencing depth 1x
+#' ### plot all in a panel under sequencing depth 1x
 #' PlotAll(power.test, depth_factor = 1)
 #'
 PlotAll <- function(Power.list,

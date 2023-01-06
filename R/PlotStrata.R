@@ -18,7 +18,7 @@
 #' ### Main function
 #' power.test <- QuickPower(dataset = "GSE46705", test_method = "TRESS")
 #'
-#' ###plot a FDR strata result
+#' ### plot a FDR strata result
 #' PlotStrata(power.test, value_option = "FDR")
 #'
 PlotStrata <- function(Power.list,

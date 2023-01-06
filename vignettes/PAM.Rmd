@@ -42,17 +42,19 @@ From GitHub:
 ```{r, eval = FALSE, warning=FALSE, message=FALSE}
 install.packages("devtools") # if you have not installed "devtools" package
 library(devtools)
-install_github("https://github.com/dxd429/PAM", 
-               build_vignettes = TRUE)
+install_github("https://github.com/dxd429/PAM",
+    build_vignettes = TRUE
+)
 ```
 
 From Bioconductor:
 
 ```{r, eval = FALSE, warning=FALSE, message=FALSE}
-if (!requireNamespace("BiocManager", quietly = TRUE))
+if (!requireNamespace("BiocManager", quietly = TRUE)) {
     install.packages("BiocManager")
+}
 # The following initializes usage of Bioc devel
-#BiocManager::install(version='devel')
+# BiocManager::install(version='devel')
 BiocManager::install("PAM")
 ```
 
@@ -71,8 +73,9 @@ If users choose to provide their own data, PAM requires paired input and IP BAM 
 For illustration purpose, we include a sample dataset (GSE46705) from a study investigating how METTL3-METTL14 complex mediates mammalian nuclear RNA N6-adenosine methylation in our experimental data package ``PAMData`` on Bioconductor, which can be installed with:
 
 ```{r, eval= FALSE}
-if (!requireNamespace("BiocManager", quietly = TRUE))
+if (!requireNamespace("BiocManager", quietly = TRUE)) {
     install.packages("BiocManager")
+}
 BiocManager::install("PAMData")
 ```
 The data package contains four .BAM files of two wild type (WT) replicates, four .BAM files of two knockdown of complex METTL3 replicates only on chromosome 15, and one genome annotation file. 
@@ -82,8 +85,8 @@ In terms of the annotation file, it should be saved in the format of ``*.sqlite`
 ```{r, eval=FALSE, message=FALSE, warning=FALSE}
 ## Use "makeTxDbFromUCSC" function to create an annotation file of hg18
 library(GenomicFeatures)
-hg18 <- makeTxDbFromUCSC(genome="hg18", tablename="knownGene")
-saveDb(hg18, file="hg18.sqlite"))
+hg18 <- makeTxDbFromUCSC(genome = "hg18", tablename = "knownGene")
+saveDb(hg18, file = "hg18.sqlite")
 ```
 
 # Power calculation
@@ -97,22 +100,22 @@ Here, we demonstrate the usage of ``PowerEval()`` with the example dataset from 
 ```{r, eval=FALSE, message=FALSE, warning=FALSE}
 library(PAMData)
 library(PAM)
-###Get the example data
+### Get the example data
 BAM_path <- GetBAMPath()
-###Call PowerEval()
+### Call PowerEval()
 power.test <- PowerEval(
-  Input.file = c("Ctrl1.chr15.input.bam", "Ctrl2.chr15.input.bam","Case1.chr15.input.bam", "Case2.chr15.input.bam"),
-  IP.file = c("Ctrl1.chr15.ip.bam", "Ctrl2.chr15.ip.bam","Case1.chr15.ip.bam", "Case2.chr15.ip.bam"),
-  BamDir = BAM_path,
-  annoDir = paste0(BAM_path, "/hg18_chr15.sqlite"),
-  variable = rep(c("Ctrl", "Trt"), each = 2),
-  bam_factor = 0.03,
-  nsim = 10,
-  N.reps = c(2,3,5,7),
-  depth_factor = c(1,2),
-  thres = c(0.01, 0.05, 0.1),
-  Test_method = "TRESS" ## TRESS or exomePeak2
-  )
+    Input.file = c("Ctrl1.chr15.input.bam", "Ctrl2.chr15.input.bam", "Case1.chr15.input.bam", "Case2.chr15.input.bam"),
+    IP.file = c("Ctrl1.chr15.ip.bam", "Ctrl2.chr15.ip.bam", "Case1.chr15.ip.bam", "Case2.chr15.ip.bam"),
+    BamDir = BAM_path,
+    annoDir = paste0(BAM_path, "/hg18_chr15.sqlite"),
+    variable = rep(c("Ctrl", "Trt"), each = 2),
+    bam_factor = 0.03,
+    nsim = 10,
+    N.reps = c(2, 3, 5, 7),
+    depth_factor = c(1, 2),
+    thres = c(0.01, 0.05, 0.1),
+    Test_method = "TRESS" ## TRESS or exomePeak2
+)
 ```
 
 ## Power evaluation with QuickPower()
@@ -136,33 +139,37 @@ PAM provides two functions: ``WriteToxlsx()`` and ``WriteToxlsx_strata()``, for 
 Here we save the output from ``QuickPower()`` to corresponding ``.xlsx`` files:
 
 ```{r, eval=FALSE, message=FALSE, warning=FALSE}
-###write out .xlsx
+### write out .xlsx
 WriteToxlsx(power.test, file = "test_TRESS.xlsx")
 
-###write out stratified results
+### write out stratified results
 WriteToxlsx_strata(power.test, file = "test_strata_TRESS.xlsx")
 ```
 The generated ``.xlsx`` files are formatted as follows:
 
 ```{r, echo=FALSE}
-tb1 <- data.frame(FDR =  rep("",4),
-                  N_rep = c(2,3,5,7),
-                  s0.01 = c(0.21, 0.11, 0.05, 0.02),
-                  s0.05 = c(0.38, 0.25, 0.13, 0.07),
-                  s0.1 = c(0.46, 0.35, 0.20, 0.13))
+tb1 <- data.frame(
+    FDR = rep("", 4),
+    N_rep = c(2, 3, 5, 7),
+    s0.01 = c(0.21, 0.11, 0.05, 0.02),
+    s0.05 = c(0.38, 0.25, 0.13, 0.07),
+    s0.1 = c(0.46, 0.35, 0.20, 0.13)
+)
 names(tb1) <- c("FDR", "N.rep", "0.01", "0.05", "0.1")
-kableExtra::kable_styling(kableExtra::kable(tb1, align = "l"),latex_options = "HOLD_position")
+kableExtra::kable_styling(kableExtra::kable(tb1, align = "l"), latex_options = "HOLD_position")
 ```
 
 ```{r, echo=FALSE}
-tb2 <- data.frame(FDR =  rep("",4),
-                  N_rep = c(2,3,5,7),
-                  s1 = c(0.10, 0.04, 0.04, 0.01),
-                  s2 = c(0.20, 0.13, 0.07, 0.02),
-                  s3 = c(0.23, 0.12, 0.03, 0.04),
-                  s4 = c(0.80, 0.56, 0.31, 0.17))
+tb2 <- data.frame(
+    FDR = rep("", 4),
+    N_rep = c(2, 3, 5, 7),
+    s1 = c(0.10, 0.04, 0.04, 0.01),
+    s2 = c(0.20, 0.13, 0.07, 0.02),
+    s3 = c(0.23, 0.12, 0.03, 0.04),
+    s4 = c(0.80, 0.56, 0.31, 0.17)
+)
 names(tb2) <- c("FDR", "N.rep", "strata 1", "strata 2", "strata 3", "strata 4")
-kableExtra::kable_styling(knitr::kable(tb2, align = "l"),latex_options = "HOLD_position")
+kableExtra::kable_styling(knitr::kable(tb2, align = "l"), latex_options = "HOLD_position")
 ```
 
 ## Generate figures
@@ -171,16 +178,16 @@ As mentioned before, PAM also provides four plotting functions: ``PlotRes()``, `
 Again, we demonstrate these four functions with the previous output from `QuickPower()``:
 
 ```{r, eval=TRUE, message=FALSE, warning=FALSE}
-###plot FDR under sequencing depth 1x
+### plot FDR under sequencing depth 1x
 PlotRes(power.test, depth_factor = 1, value_option = "FDR")
 
-###plot all in a panel under sequencing depth 1x
+### plot all in a panel under sequencing depth 1x
 PlotAll(power.test, depth_factor = 1)
 
-###plot a FDR strata result
+### plot a FDR strata result
 PlotStrata(power.test, value_option = "FDR")
 
-###plot all strata results in a panel
+### plot all strata results in a panel
 PlotALL_Strata(power.test)
 ```
 # Session info {.unnumbered}

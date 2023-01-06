@@ -19,7 +19,7 @@
 #' ### Main function
 #' power.test <- QuickPower(dataset = "GSE46705", test_method = "TRESS")
 #'
-#' ###plot FDR under sequencing depth 1x
+#' ### plot FDR under sequencing depth 1x
 #' PlotRes(power.test, depth_factor = 1, value_option = "FDR")
 #'
 PlotRes <- function(Power.list,
