@@ -34,7 +34,7 @@ SimDat_apply <- function(nreps,
     # print(paste0("Data simulation finished for ", N.reps[1], " Controls, ", N.reps[2], " Cases: ", "Iteration ", isim))
     if (Test_method == "TRESS") {
         ### TRESS test
-        TRESS.DMR <- CallDMRs.paramEsti(
+        TRESS.DMR <- TRESS::CallDMRs.paramEsti(
             counts = res.sim$counts,
             sf = res.sim$sf,
             variable = res.para$design,
