@@ -23,7 +23,7 @@
 #'
 #' @examples
 #' library(PAM)
-#' power.test <- QuickPower(dataset = "GSE46705")
+#' power.test <- QuickPower(dataset = "GSE55575")
 #'
 QuickPower <- function(dataset = "GSE46705", test_method = "TRESS") {
     load(paste0("./data/", dataset, "_", test_method, "_res.rdata"))
