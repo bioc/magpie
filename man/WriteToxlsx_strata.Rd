@@ -23,7 +23,7 @@ This function writes power evaulation results of four strata to a .xlsx file. On
 
 library(PAM)
 ### Main function
-power.test <- QuickPower(dataset = "GSE46705", test_method = "TRESS")
+power.test <- QuickPower(dataset = "GSE55575", test_method = "TRESS")
 
 ### write out .xlsx
 WriteToxlsx_strata(power.test, file = "test_strata_TRESS.xlsx")

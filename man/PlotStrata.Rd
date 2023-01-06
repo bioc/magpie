@@ -21,7 +21,7 @@ This function plots a certain power measurement of the original sequencing depth
 
 library(PAM)
 ### Main function
-power.test <- QuickPower(dataset = "GSE46705", test_method = "TRESS")
+power.test <- QuickPower(dataset = "GSE55575", test_method = "TRESS")
 
 ### plot a FDR strata result
 PlotStrata(power.test, value_option = "FDR")

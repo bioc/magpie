@@ -22,7 +22,7 @@ This function writes power evaulation results to a .xlsx file.
 
 library(PAM)
 ### Main function
-power.test <- QuickPower(dataset = "GSE46705", test_method = "TRESS")
+power.test <- QuickPower(dataset = "GSE55575", test_method = "TRESS")
 
 ### write out .xlsx
 WriteToxlsx(power.test, file = "test_TRESS.xlsx")

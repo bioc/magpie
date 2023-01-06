@@ -23,7 +23,7 @@ This function plots a certain power measurement of a certain sequencing depth. P
 
 library(PAM)
 ### Main function
-power.test <- QuickPower(dataset = "GSE46705", test_method = "TRESS")
+power.test <- QuickPower(dataset = "GSE55575", test_method = "TRESS")
 
 ### plot FDR under sequencing depth 1x
 PlotRes(power.test, depth_factor = 1, value_option = "FDR")

@@ -15,7 +15,7 @@
 #'
 #' library(PAM)
 #' ### Main function
-#' power.test <- QuickPower(dataset = "GSE46705", test_method = "TRESS")
+#' power.test <- QuickPower(dataset = "GSE55575", test_method = "TRESS")
 #'
 #' ### plot all strata results in a panel
 #' PlotALL_Strata(power.test)

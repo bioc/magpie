@@ -39,7 +39,9 @@ Imports:
     RColorBrewer,
     reshape2,
     TRESS
+Depends: R (>= 4.1.0)
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    kableExtra
 VignetteBuilder: knitr

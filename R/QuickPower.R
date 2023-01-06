@@ -19,6 +19,7 @@
 #' \item{FDC}{The ratio of number of false positives to the number of true positives.}
 #' \item{Power}{Statistical power.}
 #' \item{Precision}{The ratio of number of true positives to the number of positive discoveries.}
+#' @importFrom utils data
 #' @export
 #'
 #' @examples
@@ -26,6 +27,7 @@
 #' power.test <- QuickPower(dataset = "GSE55575")
 #'
 QuickPower <- function(dataset = "GSE46705", test_method = "TRESS") {
-    load(paste0("./data/", dataset, "_", test_method, "_res.rdata"))
+    power.test <- NULL
+    data(list = paste0(dataset, "_", test_method, "_res"), envir = environment())
     return(power.test)
 }

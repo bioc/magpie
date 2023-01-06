@@ -16,7 +16,7 @@
 #'
 #' library(PAM)
 #' ### Main function
-#' power.test <- QuickPower(dataset = "GSE46705", test_method = "TRESS")
+#' power.test <- QuickPower(dataset = "GSE55575", test_method = "TRESS")
 #'
 #' ### plot all in a panel under sequencing depth 1x
 #' PlotAll(power.test, depth_factor = 1)

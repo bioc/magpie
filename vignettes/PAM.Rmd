@@ -117,7 +117,8 @@ Another power calculation function is ``QuickPower()``. Unlike ``PowerEval()`` w
 Here, we use ``QuickPower()`` to get power evaluation results of ``GSE46705``, tested by ``TRESS``:
 
 ```{r, eval=TRUE, message=FALSE, warning=FALSE}
-power.test <- QuickPower(dataset = "GSE55575", test_method = "TRESS")
+library(PAM)
+power.test <- QuickPower(dataset = "GSE55575")
 ```
 
 # Results preservation and visualization
@@ -168,6 +169,7 @@ As mentioned before, PAM also provides four plotting functions: ``PlotRes()``, `
 Again, we demonstrate these four functions with the previous output from `QuickPower()``:
 
 ```{r, eval=TRUE, message=FALSE, warning=FALSE}
+
 ### plot FDR under sequencing depth 1x
 PlotRes(power.test, depth_factor = 1, value_option = "FDR")
 
