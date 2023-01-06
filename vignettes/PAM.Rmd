@@ -47,17 +47,6 @@ install_github("https://github.com/dxd429/PAM",
 )
 ```
 
-From Bioconductor:
-
-```{r, eval = FALSE, warning=FALSE, message=FALSE}
-if (!requireNamespace("BiocManager", quietly = TRUE)) {
-    install.packages("BiocManager")
-}
-# The following initializes usage of Bioc devel
-# BiocManager::install(version='devel')
-BiocManager::install("PAM")
-```
-
 To view the package vignette in HTML format, run the following lines in R:
 
 ```{r eval=FALSE,warning=FALSE,message=FALSE}
@@ -70,13 +59,14 @@ In order to best mimic the characteristics of real data, PAM expects users to ei
 
 If users choose to provide their own data, PAM requires paired input and IP BAM files for each replicate of both conditions. Example file names are as follows: "Ctrl1.input.bam" \& Ctrl1.ip.bam", "Ctrl2.input.bam" \& Ctrl2.ip.bam", "Case1.input.bam" \& Case1.ip.bam", "Case2.input.bam" \& Case2.ip.bam". However, users are also encouraged to provide partial data because .BAM files are generally large in size. Note that names of provided .BAM files should be ordered carefully so that samples from different conditions will not be mistreated.    
 
-For illustration purpose, we include a sample dataset (GSE46705) from a study investigating how METTL3-METTL14 complex mediates mammalian nuclear RNA N6-adenosine methylation in our experimental data package ``PAMData`` on Bioconductor, which can be installed with:
+For illustration purpose, we include a sample dataset (GSE46705) from a study investigating how METTL3-METTL14 complex mediates mammalian nuclear RNA N6-adenosine methylation in our experimental data package ``PAMData`` on GitHub, which can be installed with:
 
 ```{r, eval= FALSE}
-if (!requireNamespace("BiocManager", quietly = TRUE)) {
-    install.packages("BiocManager")
-}
-BiocManager::install("PAMData")
+install.packages("devtools") # if you have not installed "devtools" package
+library(devtools)
+install_github("https://github.com/dxd429/PAMData",
+    build_vignettes = TRUE
+)
 ```
 The data package contains four .BAM files of two wild type (WT) replicates, four .BAM files of two knockdown of complex METTL3 replicates only on chromosome 15, and one genome annotation file. 
 
@@ -126,8 +116,8 @@ Another power calculation function is ``QuickPower()``. Unlike ``PowerEval()`` w
 
 Here, we use ``QuickPower()`` to get power evaluation results of ``GSE46705``, tested by ``TRESS``:
 
-```{r, eval=FALSE, message=FALSE, warning=FALSE}
-power.test <- QuickPower(dataset = "GSE46705", test_method = "TRESS")
+```{r, eval=TRUE, message=FALSE, warning=FALSE}
+power.test <- QuickPower(dataset = "GSE55575", test_method = "TRESS")
 ```
 
 # Results preservation and visualization

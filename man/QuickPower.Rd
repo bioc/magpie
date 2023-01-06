@@ -4,11 +4,13 @@
 \alias{QuickPower}
 \title{Obtain pre-calculated results from four publicly available MeRIP-seq datasets}
 \usage{
-QuickPower(dataset = "GSE46705")
+QuickPower(dataset = "GSE46705", test_method = "TRESS")
 }
 \arguments{
 \item{dataset}{A character specifying the selected dataset. Default is 'GSE46705'. Options are
 'GSE46705', 'GSE55575', 'GSE115105', and 'GSE94613'.}
+
+\item{test_method}{A character indicating which DMR calling method to use. Options are "TRESS" and "exomePeak2". Default is "TRESS".}
 }
 \value{
 A list of calculated power measurements that will be used as the input of functions \code{\link{WriteToxlsx}}, \code{\link{WriteToxlsx_strata}}, \code{\link{PlotAll}}, \code{\link{PlotRes}}, \code{\link{PlotALL_Strata}}, and \code{\link{PlotStrata}}.
@@ -29,7 +31,7 @@ This function quickly outputs pre-calculated power evaluation results from four 
 {GSE94613: }{Human leukemia cell line: Four replicates of wild type (WT) and eight replicates of knockdown (KD) of complex METTL3.}
 }
 \examples{
-\donttest{
-power.test <- QuickPower(dataset = "GSE46705")
-}
+library(PAM)
+power.test <- QuickPower(dataset = "GSE55575")
+
 }
