@@ -7,6 +7,9 @@ author:
 - name: Zhenxing Guo
   affiliation: School of Data Science, The Chinese University of Hong Kong, Shenzhen
   email: guozhenxing@cuhk.edu.cn
+- name: Hao Feng
+  affiliation: Department of Population and Quantitative Health Sciences, Case Western Reserve University
+  email: hxf155@case.edu
 package: PAM
 output:
   BiocStyle::html_document
@@ -47,6 +50,13 @@ install_github("https://github.com/dxd429/PAM",
 )
 ```
 
+From Bioconductor:
+```{r, eval = FALSE, warning=FALSE, message=FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("PAM")
+```
+
 To view the package vignette in HTML format, run the following lines in R:
 
 ```{r eval=FALSE,warning=FALSE,message=FALSE}
@@ -54,10 +64,36 @@ library(PAM)
 vignette("PAM")
 ```
 
-# Input data {#section:InputData}
+# Quickstart
+PAM offers the function ``QuickPower()`` for users who need quick power calculation results. This function takes seconds to run and uses pre-calculated results from three publicly available MeRIP-seq datasets. The details of these datasets can be found in \@ref(QuickPower)). To use this function and save and plot the results, simply run the following lines of code:
+
+```{r, eval=FALSE, message=FALSE, warning=FALSE}
+library(PAM)
+power.test <- QuickPower(dataset = "GSE46705")
+
+### write out .xlsx
+WriteToxlsx(power.test, file = "test_TRESS.xlsx")
+
+### write out stratified results
+WriteToxlsx_strata(power.test, file = "test_strata_TRESS.xlsx")
+
+### plot FDR under sequencing depth 1x
+PlotRes(power.test, depth_factor = 1, value_option = "FDR")
+
+### plot all in a panel under sequencing depth 1x
+PlotAll(power.test, depth_factor = 1)
+
+### plot a FDR strata result
+PlotStrata(power.test, value_option = "FDR")
+
+### plot all strata results in a panel
+PlotALL_Strata(power.test)
+```
+
+# Input data
 In order to best mimic the characteristics of real data, PAM expects users to either provide real MeRIP-Seq datasets or utilize our pre-calculated results. 
 
-If users choose to provide their own data, PAM requires paired input and IP BAM files for each replicate of both conditions. Example file names are as follows: "Ctrl1.input.bam" \& Ctrl1.ip.bam", "Ctrl2.input.bam" \& Ctrl2.ip.bam", "Case1.input.bam" \& Case1.ip.bam", "Case2.input.bam" \& Case2.ip.bam". However, users are also encouraged to provide partial data because .BAM files are generally large in size. Note that names of provided .BAM files should be ordered carefully so that samples from different conditions will not be mistreated.    
+If users choose to provide their own data, PAM requires paired input and IP .BAM files for each replicate of both conditions. Example file names are as follows: "Ctrl1.input.bam" \& Ctrl1.ip.bam", "Ctrl2.input.bam" \& Ctrl2.ip.bam", "Case1.input.bam" \& Case1.ip.bam", "Case2.input.bam" \& Case2.ip.bam". However, users are also encouraged to provide partial data because .BAM files are generally large in size. Note that names of provided .BAM files should be ordered carefully so that samples from different conditions will not be mistreated.    
 
 For illustration purpose, we include a sample dataset (GSE46705) from a study investigating how METTL3-METTL14 complex mediates mammalian nuclear RNA N6-adenosine methylation in our experimental data package ``PAMData`` on GitHub, which can be installed with:
 
@@ -108,17 +144,22 @@ power.test <- PowerEval(
 )
 ```
 
-## Power evaluation with QuickPower()
+To use your own data, replace ``Input.file`` and ``IP.file`` with the names of your .BAM files, and set ``BamDir`` and ``annoDir`` to the file paths for your data. Make sure that the order of the ``variable`` corresponds to the order of your data files.
+
+## Power evaluation with QuickPower(){#QuickPower}
 Another power calculation function is ``QuickPower()``. Unlike ``PowerEval()`` which often takes a while to run, ``QuickPower()`` produces results in seconds, calling results of three pre-evaluated GEO datasets:
+
 * ``GSE46705``: Human HeLa cell line: Two replicates of wild type (WT) and two replicates of knockdown (KD) of complex METTL3.
+
 * ``GSE55575``: Mouse embryonic fibroblasts: Two replicates of wild type (WT) and four replicates of knockdown (KD) of WTAP.
+
 * ``GSE94613``: Human leukemia cell line: Four replicates of wild type (WT) and eight replicates of knockdown (KD) of complex METTL3.
 
 Here, we use ``QuickPower()`` to get power evaluation results of ``GSE46705``, tested by ``TRESS``:
 
 ```{r, eval=TRUE, message=FALSE, warning=FALSE}
 library(PAM)
-power.test <- QuickPower(dataset = "GSE55575")
+power.test <- QuickPower(dataset = "GSE46705")
 ```
 
 # Results preservation and visualization
@@ -142,9 +183,9 @@ The generated ``.xlsx`` files are formatted as follows:
 tb1 <- data.frame(
     FDR = rep("", 4),
     N_rep = c(2, 3, 5, 7),
-    s0.01 = c(0.21, 0.11, 0.05, 0.02),
-    s0.05 = c(0.38, 0.25, 0.13, 0.07),
-    s0.1 = c(0.46, 0.35, 0.20, 0.13)
+    s0.01 = c(0.36, 0.14, 0.06, 0.04),
+    s0.05 = c(0.48, 0.27, 0.13, 0.11),
+    s0.1 = c(0.57, 0.38, 0.21, 0.17)
 )
 names(tb1) <- c("FDR", "N.rep", "0.01", "0.05", "0.1")
 kableExtra::kable_styling(kableExtra::kable(tb1, align = "l"), latex_options = "HOLD_position")
@@ -154,12 +195,12 @@ kableExtra::kable_styling(kableExtra::kable(tb1, align = "l"), latex_options = "
 tb2 <- data.frame(
     FDR = rep("", 4),
     N_rep = c(2, 3, 5, 7),
-    s1 = c(0.10, 0.04, 0.04, 0.01),
-    s2 = c(0.20, 0.13, 0.07, 0.02),
-    s3 = c(0.23, 0.12, 0.03, 0.04),
-    s4 = c(0.80, 0.56, 0.31, 0.17)
+    s1 = c(0.41, 0.23, 0.15, 0.12),
+    s2 = c(0.46, 0.30, 0.16, 0.14),
+    s3 = c(0.47, 0.27, 0.11, 0.08),
+    s4 = c(0.58, 0.28, 0.12, 0.11)
 )
-names(tb2) <- c("FDR", "N.rep", "strata 1", "strata 2", "strata 3", "strata 4")
+names(tb2) <- c("FDR", "N.rep", "(0, 27.68]", "(27.68, 54.3]", "(54.3, 92.64]", "(92.64, Inf]")
 kableExtra::kable_styling(knitr::kable(tb2, align = "l"), latex_options = "HOLD_position")
 ```
 
