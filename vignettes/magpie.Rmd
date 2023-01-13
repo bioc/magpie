@@ -67,7 +67,7 @@ power.test <- quickPower(dataset = "GSE46705")# Options are 'GSE46705', 'GSE5557
 
 Save results into .xlsx files:
 
-```{r, eval=TRUE, message=FALSE, warning=FALSE}
+```{r, eval=FALSE, message=FALSE, warning=FALSE}
 ### write out .xlsx
 writeToxlsx(power.test, file = "test_TRESS.xlsx")
 
@@ -167,9 +167,13 @@ power.test <- quickPower(dataset = "GSE46705")
 
 # Results preservation and visualization
 Magpie computes power evaluation metrics for each experimental scenario defined in the function arguments, the results it generates include:
+
 * FDR: The ratio of number of false positives to the number of positive discoveries.
+
 * FDC: The ratio of number of false positives to the number of true positives.
+
 * Power: Statistical power.
+
 * Precision: The ratio of number of true positives to the number of positive discoveries.
 
 Once users have obtained a list of power measurements using either ``powerEval()`` or ``quickPower()``, they can use functions in magpie to save the results as a formatted .xlsx file and generate basic line plots.
