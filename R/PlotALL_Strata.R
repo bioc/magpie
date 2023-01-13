@@ -18,9 +18,9 @@
 #' power.test <- quickPower(dataset = "GSE55575", test_method = "TRESS")
 #'
 #' ### plot all strata results in a panel
-#' plotALL_Strata(power.test)
+#' plotAll_Strata(power.test)
 #'
-plotALL_Strata <- function(Power.list) {
+plotAll_Strata <- function(Power.list) {
     options(warn = -1)
     Power.list <- Power.list[["1x"]][5:8]
     par(mfrow = c(2, 2))
