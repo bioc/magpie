@@ -41,7 +41,7 @@
 #' library(magpieData)
 #' library(magpie)
 #' ### Get the example data
-#' BAM_path <- getBAMPath()
+#' BAM_path <- getBAMpath()
 #' ### Call PowerEval()
 #' power.test <- powerEval(
 #'     Input.file = c("Ctrl1.chr15.input.bam", "Ctrl2.chr15.input.bam", "Case1.chr15.input.bam", "Case2.chr15.input.bam"),
