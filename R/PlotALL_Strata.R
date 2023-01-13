@@ -13,14 +13,14 @@
 #'
 #' @examples
 #'
-#' library(PAM)
+#' library(magpie)
 #' ### Main function
-#' power.test <- QuickPower(dataset = "GSE55575", test_method = "TRESS")
+#' power.test <- quickPower(dataset = "GSE55575", test_method = "TRESS")
 #'
 #' ### plot all strata results in a panel
-#' PlotALL_Strata(power.test)
+#' plotALL_Strata(power.test)
 #'
-PlotALL_Strata <- function(Power.list) {
+plotALL_Strata <- function(Power.list) {
     options(warn = -1)
     Power.list <- Power.list[["1x"]][5:8]
     par(mfrow = c(2, 2))

@@ -1,4 +1,4 @@
-#### write a strata list to the same sheet
+#### Write a strata list to the same sheet
 #' Write power evaulation results of four strata under all sample size scenarios to a .xlsx file.
 #'
 #' This function writes power evaulation results of four strata to a .xlsx file. Only results from the original sequencing depth are saved.
@@ -16,14 +16,14 @@
 #'
 #' @examples
 #'
-#' library(PAM)
+#' library(magpie)
 #' ### Main function
-#' power.test <- QuickPower(dataset = "GSE55575", test_method = "TRESS")
+#' power.test <- quickPower(dataset = "GSE46705", test_method = "TRESS")
 #'
 #' ### write out .xlsx
-#' WriteToxlsx_strata(power.test, file = "test_strata_TRESS.xlsx")
+#' writeToxlsx_strata(power.test, file = "test_strata_TRESS.xlsx")
 #'
-WriteToxlsx_strata <- function(pl, file) {
+writeToxlsx_strata <- function(pl, file) {
     pl <- pl[["1x"]][seq(5, 8)]
     wb <- createWorkbook() ##
 

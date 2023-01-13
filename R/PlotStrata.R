@@ -14,14 +14,14 @@
 #' @importFrom graphics axis par
 #' @examples
 #'
-#' library(PAM)
+#' library(magpie)
 #' ### Main function
-#' power.test <- QuickPower(dataset = "GSE55575", test_method = "TRESS")
+#' power.test <- quickPower(dataset = "GSE46705", test_method = "TRESS")
 #'
 #' ### plot a FDR strata result
-#' PlotStrata(power.test, value_option = "FDR")
+#' plotStrata(power.test, value_option = "FDR")
 #'
-PlotStrata <- function(Power.list,
+plotStrata <- function(Power.list,
                        value_option = "FDR") {
     options(warn = -1)
     Power.list <- Power.list[["1x"]][5:8]

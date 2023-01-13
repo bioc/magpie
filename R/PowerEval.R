@@ -62,7 +62,7 @@ PowerEval <- function(Input.file,
                       BamDir,
                       annoDir,
                       variable,
-                      bam_factor = 0.05,
+                      bam_factor,
                       nsim = 10,
                       N.reps = c(2, 3, 5),
                       depth_factor = c(1, 2, 5),
@@ -95,6 +95,12 @@ PowerEval <- function(Input.file,
 
     if (length(variable) == 0) {
         stop("Please provide variable for model fitting!",
+            call. = TRUE, domain = NULL
+        )
+    }
+
+    if (length(bam_factor) == 0) {
+        stop("Please provide a bam_factor!",
             call. = TRUE, domain = NULL
         )
     }

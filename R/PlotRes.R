@@ -15,14 +15,14 @@
 #'
 #' @examples
 #'
-#' library(PAM)
+#' library(magpie)
 #' ### Main function
-#' power.test <- QuickPower(dataset = "GSE55575", test_method = "TRESS")
+#' power.test <- quickPower(dataset = "GSE46705", test_method = "TRESS")
 #'
 #' ### plot FDR under sequencing depth 1x
-#' PlotRes(power.test, depth_factor = 1, value_option = "FDR")
+#' plotRes(power.test, depth_factor = 1, value_option = "FDR")
 #'
-PlotRes <- function(Power.list,
+plotRes <- function(Power.list,
                     depth_factor = 1,
                     value_option = "FDR") {
     SD_multiplier <- depth_factor

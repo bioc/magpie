@@ -14,14 +14,14 @@
 #'
 #' @examples
 #'
-#' library(PAM)
+#' library(magpie)
 #' ### Main function
-#' power.test <- QuickPower(dataset = "GSE55575", test_method = "TRESS")
+#' power.test <- quickPower(dataset = "GSE46705", test_method = "TRESS")
 #'
 #' ### plot all in a panel under sequencing depth 1x
-#' PlotAll(power.test, depth_factor = 1)
+#' plotAll(power.test, depth_factor = 1)
 #'
-PlotAll <- function(Power.list,
+plotAll <- function(Power.list,
                     depth_factor = 1) {
     SD_multiplier <- depth_factor
     Power.list <- lapply(Power.list, FUN = function(x) x[seq_len(4)])

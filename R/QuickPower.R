@@ -23,10 +23,10 @@
 #' @export
 #'
 #' @examples
-#' library(PAM)
-#' power.test <- QuickPower(dataset = "GSE55575")
+#' library(magpie)
+#' power.test <- quickPower(dataset = "GSE46705")
 #'
-QuickPower <- function(dataset = "GSE46705", test_method = "TRESS") {
+quickPower <- function(dataset = "GSE46705", test_method = "TRESS") {
     power.test <- NULL
     data(list = paste0(dataset, "_", test_method, "_res"), envir = environment())
     return(power.test)

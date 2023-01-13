@@ -15,14 +15,14 @@
 #'
 #' @examples
 #'
-#' library(PAM)
+#' library(magpie)
 #' ### Main function
-#' power.test <- QuickPower(dataset = "GSE55575", test_method = "TRESS")
+#' power.test <- quickPower(dataset = "GSE46705", test_method = "TRESS")
 #'
 #' ### write out .xlsx
-#' WriteToxlsx(power.test, file = "test_TRESS.xlsx")
+#' writeToxlsx(power.test, file = "test_TRESS.xlsx")
 #'
-WriteToxlsx <- function(pl, file) {
+writeToxlsx <- function(pl, file) {
     pl <- lapply(pl, FUN = function(x) x[seq_len(4)])
     wb <- createWorkbook() ##
     for (subid in seq_along(pl)) {

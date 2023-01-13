@@ -1,0 +1,239 @@
+---
+title: "magpie Package User's Guide"
+author:
+- name: Daoyu Duan
+  affiliation: Department of Population and Quantitative Health Sciences, Case Western Reserve University
+  email: dxd429@case.edu
+- name: Zhenxing Guo
+  affiliation: School of Data Science, The Chinese University of Hong Kong, Shenzhen
+  email: guozhenxing@cuhk.edu.cn
+package: magpie
+output:
+  BiocStyle::html_document
+abstract: |
+  This package, magpie, aims to perform statistical power analysis for differential RNA methylation calling, using MeRIP-Seq data. It takes real MeRIP-Seq data as input for parameter estimation, allows for options of setting various sample sizes, sequencing depths, and testing methods, and calculates FDR, FDC, power, and precision as evaluation metrics. It also offers functions to save results into .xlsx files and produce basic line plots.
+vignette: |
+  %\VignetteIndexEntry{magpie Package User's Guide}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+\tableofContents
+
+# Introduction
+## Background
+MeRIP-Seq (methylated RNA immunoprecipitation followed by sequencing) is a method used to study the epigenetic regulation of gene expression by identifying methylated RNA molecules in a sample. It involves immunoprecipitation of methylated RNA using an antibody specific for methylated nucleotides, followed by high-throughput sequencing of the immunoprecipitated RNA. The resulting data provide a snapshot of the methylation status of RNA molecules, allowing researchers to investigate the role of methylation in the regulation of gene expression and other biological processes. After being collected from two or more biological conditions, MeRIP-Seq data is typically analyzed using computational tools to identify differentially methylated regions (DMRs). DMR detection can uncover the functional significance of m6A methylation and identify potential therapeutic targets for disease such as cancer.
+
+To establish the statistical rigor of MeRIP-Seq experiments, it is important to carefully consider sample size during the study design process in order to ensure that the experiment is adequately powered to detect differentially methylated RNA (DMR) regions. However, there is no such tool available, so we developed the R package magpie, a simulation-based tool for performing power calculations on MeRIP-Seq data. magpie has two main functions:
+
+* Power calculation: Given a MeRIP-Seq dataset, various experimental scenarios, and a selected test method, magpie can calculate the statistical power of the experiment and output the results.
+
+* Results preservation and visualization: magpie can save the results of the power calculation as an Excel file, and it can also produce basic line plots that allow the user to visualize the results.
+
+## Installation 
+From GitHub: 
+
+```{r, eval = FALSE, warning=FALSE, message=FALSE}
+install.packages("devtools") # if you have not installed "devtools" package
+library(devtools)
+install_github("https://github.com/dxd429/magpie",
+    build_vignettes = TRUE
+)
+```
+
+From Bioconductor:
+```{r, eval = FALSE, warning=FALSE, message=FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("magpie")
+```
+
+To view the package vignette in HTML format, run the following lines in R:
+
+```{r eval=FALSE,warning=FALSE,message=FALSE}
+library(magpie)
+vignette("magpie")
+```
+
+# Quickstart
+To get started with magpie, users are expected to provide MeRIP-Seq data for parameter estimation. This includes paired input and IP .BAM files for each experimental condition, along with the matching annotation file in the ``*.sqlite`` format. Since .BAM files are generally large, it is also encouraged to use data of only one or a few chromosomes.
+
+magpie offers the function ``quickPower()`` for users who need quick power calculation results without their own simulations. This function takes few seconds to run and uses pre-calculated results from three publicly available MeRIP-seq datasets. The details of these datasets can be found in \@ref(quickPower)). To use this function and save and plot the results:
+
+```{r, eval=TRUE, message=FALSE, warning=FALSE}
+library(magpie)
+power.test <- quickPower(dataset = "GSE46705")# Options are 'GSE46705', 'GSE55575', and 'GSE94613'.
+```
+
+Save results into .xlsx files:
+
+```{r, eval=TRUE, message=FALSE, warning=FALSE}
+### write out .xlsx
+writeToxlsx(power.test, file = "test_TRESS.xlsx")
+
+### write out stratified results
+writeToxlsx_strata(power.test, file = "test_strata_TRESS.xlsx")
+```
+
+Produce basic line plots for visulization: 
+
+```{r, eval=TRUE, message=FALSE, warning=FALSE}
+### plot FDR under sequencing depth 1x
+plotRes(power.test, depth_factor = 1, value_option = "FDR")
+
+### plot all in a panel under sequencing depth 1x
+plotAll(power.test, depth_factor = 1)
+
+### plot a FDR strata result
+plotStrata(power.test, value_option = "FDR")
+
+### plot all strata results in a panel
+plotAll_Strata(power.test)
+```
+
+# Input data
+In order to best mimic the characteristics of real data, magpie expects users to provide real MeRIP-Seq datasets, if not directly extracting our pre-calculated results. 
+
+magpie requires paired input and IP .BAM files for each replicate of both conditions. Example file names are as follows: "Ctrl1.input.bam" \& Ctrl1.ip.bam", "Ctrl2.input.bam" \& Ctrl2.ip.bam", "Case1.input.bam" \& Case1.ip.bam", "Case2.input.bam" \& Case2.ip.bam", for a 2 controls vs 2 cases DMR calling study. Note that names of provided .BAM files should be ordered carefully so that samples from different conditions will not be mistreated.    
+
+For illustration purpose, we include a sample dataset (GSE46705) from a study investigating how METTL3-METTL14 complex mediates mammalian nuclear RNA N6-adenosine methylation in our experimental data package ``magpieData`` on GitHub, which can be installed with:
+
+```{r, eval= FALSE}
+install.packages("devtools") # if you have not installed "devtools" package
+library(devtools)
+install_github("https://github.com/dxd429/magpieData",
+    build_vignettes = TRUE
+)
+```
+The data package contains four .BAM files of two wild type (WT) replicates, four .BAM files of two knockdown of complex METTL3 replicates only on chromosome 15, and one genome annotation file. 
+
+In terms of the annotation file, it should match the reference genome version when obtaining the .BAM files, and be saved in the format of ``*.sqlite``, which can be created with R function ``makeTxDbFromUCSC()`` from Bioconductor package ``GenomicFeatures``:
+
+```{r, eval=FALSE, message=FALSE, warning=FALSE}
+## Use "makeTxDbFromUCSC" function to create an annotation file of hg18
+library(GenomicFeatures)
+hg18 <- makeTxDbFromUCSC(genome = "hg18", tablename = "knownGene")
+saveDb(hg18, file = "hg18.sqlite")
+```
+
+# Power calculation
+magpie offers two functions for power evaluation: ``powerEval()`` and ``quickPower()``. If users prefer to quickly examine the power evaluation results using the built-in datasets, they can use the ``quickPower()`` function. Otherwise, users can use the ``powerEval()`` function to perform power evaluation on their own data and customize the simulation settings. The output of these two functions is a list of power measurements under various experimental settings, such as ``FDR``, ``Precision``, and ``Statistical power``.
+
+## Power evaluation with powerEval()
+With .BAM files and an annotation file, ``powerEval()`` enables users to specify number of simulations (``nsim``), sample sizes (``N.reps``), sequencing depths (``depth_factor``), FDR thresholds (``thres``), and testing methods (``Test_method``). 
+
+Users should always indicate the percentage of the whole genome covered by their dataset, whether it's complete or partial (``bam_factor``). Here, ``bam_factor`` allows for simulating whole-genome data using a smaller subset of it, under the assumption that DMR signals are relatively evenly distributed across chromosomes.  
+
+We demonstrate the usage of ``powerEval()`` with the example dataset from R package ``magpieData``:
+
+```{r, eval=FALSE, message=FALSE, warning=FALSE}
+library(magpieData)
+library(magpie)
+### Get the example data
+BAM_path <- getBAMpath()
+### Call powerEval()
+power.test <- powerEval(
+    Input.file = c("Ctrl1.chr15.input.bam", "Ctrl2.chr15.input.bam", "Case1.chr15.input.bam", "Case2.chr15.input.bam"),
+    IP.file = c("Ctrl1.chr15.ip.bam", "Ctrl2.chr15.ip.bam", "Case1.chr15.ip.bam", "Case2.chr15.ip.bam"),
+    BamDir = BAM_path,
+    annoDir = paste0(BAM_path, "/hg18_chr15.sqlite"),
+    variable = rep(c("Ctrl", "Trt"), each = 2),
+    bam_factor = 0.03,
+    nsim = 10,
+    N.reps = c(2, 3, 5, 7),
+    depth_factor = c(1, 2),
+    thres = c(0.01, 0.05, 0.1),
+    Test_method = "TRESS" ## TRESS or exomePeak2
+)
+```
+
+To use your own data, replace ``Input.file`` and ``IP.file`` with the names of your .BAM files, and set ``BamDir`` and ``annoDir`` to the file paths for your data. Make sure that the order of the ``variable`` corresponds to the order of your data files.
+
+## Power evaluation with quickPower(){#quickPower}
+Another power calculation function is ``quickPower()``. Unlike ``powerEval()`` which often takes a while to run, ``quickPower()`` produces results in seconds, by directly extracting results from three pre-evaluated datasets on GEO:
+
+* ``GSE46705``: Human HeLa cell line: Two replicates of wild type (WT) and two replicates of knockdown (KD) of complex METTL3.
+
+* ``GSE55575``: Mouse embryonic fibroblasts: Two replicates of wild type (WT) and four replicates of knockdown (KD) of WTAP.
+
+* ``GSE94613``: Human leukemia cell line: Four replicates of wild type (WT) and eight replicates of knockdown (KD) of complex METTL3.
+
+Here, we use ``quickPower()`` to get power evaluation results of ``GSE46705``, tested by ``TRESS``:
+
+```{r, eval=TRUE, message=FALSE, warning=FALSE}
+library(magpie)
+power.test <- quickPower(dataset = "GSE46705")
+```
+
+# Results preservation and visualization
+Magpie computes power evaluation metrics for each experimental scenario defined in the function arguments, the results it generates include:
+* FDR: The ratio of number of false positives to the number of positive discoveries.
+* FDC: The ratio of number of false positives to the number of true positives.
+* Power: Statistical power.
+* Precision: The ratio of number of true positives to the number of positive discoveries.
+
+Once users have obtained a list of power measurements using either ``powerEval()`` or ``quickPower()``, they can use functions in magpie to save the results as a formatted .xlsx file and generate basic line plots.
+
+## Save results to .xlsx files
+magpie provides two functions: ``writeToxlsx()`` and ``writeToxlsx_strata()``, for saving results to a formatted .xlsx file. ``writeToxlsx()`` allows you to save power measurements for different sample sizes, FDR thresholds, and sequencing depths, while ``writeToxlsx_strata()`` writes out the results stratified by input expression level and for different sample sizes. Note that we only evaluate power under the original sequencing depth (``depth_factor = 1``) and FDR threshold of 0.05 (``thres = 1``).
+
+Here we save the output from ``quickPower()`` to corresponding ``.xlsx`` files:
+
+```{r, eval=FALSE, message=FALSE, warning=FALSE}
+### write out .xlsx
+writeToxlsx(power.test, file = "test_TRESS.xlsx")
+
+### write out stratified results
+writeToxlsx_strata(power.test, file = "test_strata_TRESS.xlsx")
+```
+The generated ``.xlsx`` files are formatted as follows:
+
+```{r, echo=FALSE}
+tb1 <- data.frame(
+    FDR = rep("", 4),
+    N_rep = c(2, 3, 5, 7),
+    s0.01 = c(0.36, 0.14, 0.06, 0.04),
+    s0.05 = c(0.48, 0.27, 0.13, 0.11),
+    s0.1 = c(0.57, 0.38, 0.21, 0.17)
+)
+names(tb1) <- c("FDR", "N.rep", "0.01", "0.05", "0.1")
+kableExtra::kable_styling(kableExtra::kable(tb1, align = "l"), latex_options = "HOLD_position")
+```
+
+```{r, echo=FALSE}
+tb2 <- data.frame(
+    FDR = rep("", 4),
+    N_rep = c(2, 3, 5, 7),
+    s1 = c(0.41, 0.23, 0.15, 0.12),
+    s2 = c(0.46, 0.30, 0.16, 0.14),
+    s3 = c(0.47, 0.27, 0.11, 0.08),
+    s4 = c(0.58, 0.28, 0.12, 0.11)
+)
+names(tb2) <- c("FDR", "N.rep", "(0, 27.68]", "(27.68, 54.3]", "(54.3, 92.64]", "(92.64, Inf]")
+kableExtra::kable_styling(knitr::kable(tb2, align = "l"), latex_options = "HOLD_position")
+```
+
+## Generate figures
+As mentioned before, magpie also provides four plotting functions: ``plotRes()``, ``plotAll()``, ``plotStrata()``, and ``plotAll_Strata()``, for figure generating. In general, ``plotRes()`` and ``plotStrata()`` produce individual plots, while ``plotAll()`` and ``plotAll_Strata()` produce four plots in a 2 x 2 panel.
+
+Again, we demonstrate these four functions with the previous output from `quickPower()``:
+
+```{r, eval=TRUE, message=FALSE, warning=FALSE}
+
+### plot FDR under sequencing depth 1x
+plotRes(power.test, depth_factor = 1, value_option = "FDR")
+
+### plot all in a panel under sequencing depth 1x
+plotAll(power.test, depth_factor = 1)
+
+### plot a FDR strata result
+plotStrata(power.test, value_option = "FDR")
+
+### plot all strata results in a panel
+plotAll_Strata(power.test)
+```
+# Session info {.unnumbered}
+
+```{r sessionInfo, echo=FALSE}
+sessionInfo()
+```

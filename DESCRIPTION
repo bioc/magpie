@@ -1,6 +1,6 @@
-Package: PAM
+Package: magpie
 Type: Package
-Title: Power Analysis for MeRIP-seq Data Under Various Study Designs
+Title: MeRIP-Seq data Analysis for Genomic Power Investigation and Evaluation
 Version: 0.1.0
 Authors@R: c(person(given = "Daoyu",
                     family = "Duan",
