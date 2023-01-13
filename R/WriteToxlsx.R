@@ -3,7 +3,7 @@
 #'
 #' This function writes power evaulation results to a .xlsx file.
 #'
-#' @param pl A list produced by \code{\link{PowerEval}}.
+#' @param pl A list produced by \code{\link{powerEval}}.
 #' @param file A character indicating the name of the output .xlsx file.
 #'
 #' @return It outputs a .xlsx file including FDR, FDC, power, and precision under various sample sizes,

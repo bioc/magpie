@@ -17,7 +17,7 @@
 #' @param thres A vector of numerical values indicating the p-value thresholds used in power calculation. Default is c(0.01, 0.05, 0.1, 0.2).
 #' @param Test_method A character indicating which DMR calling method to use. Options are "TRESS" and "exomePeak2". Default is "TRESS".
 #'
-#' @return A list of calculated power measurements that will be used as the input of functions \code{\link{WriteToxlsx}}, \code{\link{WriteToxlsx_strata}}, \code{\link{PlotAll}}, \code{\link{PlotRes}}, \code{\link{PlotALL_Strata}}, and \code{\link{PlotStrata}}.
+#' @return A list of calculated power measurements that will be used as the input of functions \code{\link{writeToxlsx}}, \code{\link{writeToxlsx_strata}}, \code{\link{plotAll}}, \code{\link{plotRes}}, \code{\link{plotAll_Strata}}, and \code{\link{plotStrata}}.
 #' Measurements include:
 #' \item{FDR}{The ratio of number of false positives to the number of positive discoveries.}
 #' \item{FDC}{The ratio of number of false positives to the number of true positives.}

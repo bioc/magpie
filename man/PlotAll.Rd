@@ -7,7 +7,7 @@
 plotAll(Power.list, depth_factor = 1)
 }
 \arguments{
-\item{Power.list}{A list produced by \code{\link{PowerEval}}.}
+\item{Power.list}{A list produced by \code{\link{powerEval}}.}
 
 \item{depth_factor}{A numerical value indicating which sequencing depth to plot. For example, 2 means doubling the original sequencing depth. Default is 1.}
 }

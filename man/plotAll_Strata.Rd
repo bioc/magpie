@@ -7,7 +7,7 @@
 plotAll_Strata(Power.list)
 }
 \arguments{
-\item{Power.list}{A list produced by \code{\link{PowerEval}}.}
+\item{Power.list}{A list produced by \code{\link{powerEval}}.}
 }
 \value{
 It plots all power measurements of the original sequencing depth by strata in a 2x2 panel. Power measurements to plot include "FDR", "FDC", "Power", and "Precision".

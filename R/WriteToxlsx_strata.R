@@ -4,7 +4,7 @@
 #' This function writes power evaulation results of four strata to a .xlsx file. Only results from the original sequencing depth are saved.
 #'     Here, strata are determined by mean input control levels of simulated data.
 #'
-#' @param pl A list produced by \code{\link{PowerEval}}.
+#' @param pl A list produced by \code{\link{powerEval}}.
 #' @param file A character indicating the name of the output .xlsx file.
 #'
 #' @return It outputs a .xlsx file including FDR, FDC, power, and precision under the original sequencing depth and various sample sizes

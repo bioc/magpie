@@ -7,7 +7,7 @@
 plotStrata(Power.list, value_option = "FDR")
 }
 \arguments{
-\item{Power.list}{A list produced by \code{\link{PowerEval}}.}
+\item{Power.list}{A list produced by \code{\link{powerEval}}.}
 
 \item{value_option}{A character indicating which measurement to plot. Options include "FDR", "FDC", "Power", and "Precision".}
 }

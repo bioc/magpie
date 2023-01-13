@@ -3,7 +3,7 @@
 #'
 #' This function plots a certain power measurement of a certain sequencing depth. Power measurements to plot include "FDR", "FDC", "Power", and "Precision".
 #'
-#' @param Power.list A list produced by \code{\link{PowerEval}}.
+#' @param Power.list A list produced by \code{\link{powerEval}}.
 #' @param depth_factor A numerical value indicating which sequencing depth to plot. For example, 2 means doubling the original sequencing depth. Default is 1.
 #' @param value_option A character indicating which measurement to plot. Options include "FDR", "FDC", "Power", and "Precision".
 #'

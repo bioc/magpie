@@ -2,7 +2,7 @@
 #'
 #' This function plots all power measurements of the original sequencing depth by strata in a 2x2 panel. Power measurements to plot include "FDR", "FDC", "Power", and "Precision".
 #'
-#' @param Power.list A list produced by \code{\link{PowerEval}}.
+#' @param Power.list A list produced by \code{\link{powerEval}}.
 #'
 #' @return It plots all power measurements of the original sequencing depth by strata in a 2x2 panel. Power measurements to plot include "FDR", "FDC", "Power", and "Precision".
 #'

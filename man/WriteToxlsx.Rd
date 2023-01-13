@@ -7,7 +7,7 @@
 writeToxlsx(pl, file)
 }
 \arguments{
-\item{pl}{A list produced by \code{\link{PowerEval}}.}
+\item{pl}{A list produced by \code{\link{powerEval}}.}
 
 \item{file}{A character indicating the name of the output .xlsx file.}
 }
