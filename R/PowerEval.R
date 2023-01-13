@@ -38,12 +38,12 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(PAMData)
-#' library(PAM)
+#' library(magpieData)
+#' library(magpie)
 #' ### Get the example data
-#' BAM_path <- GetBAMPath()
+#' BAM_path <- getBAMPath()
 #' ### Call PowerEval()
-#' power.test <- PowerEval(
+#' power.test <- powerEval(
 #'     Input.file = c("Ctrl1.chr15.input.bam", "Ctrl2.chr15.input.bam", "Case1.chr15.input.bam", "Case2.chr15.input.bam"),
 #'     IP.file = c("Ctrl1.chr15.ip.bam", "Ctrl2.chr15.ip.bam", "Case1.chr15.ip.bam", "Case2.chr15.ip.bam"),
 #'     BamDir = BAM_path,
@@ -57,7 +57,7 @@
 #'     Test_method = "TRESS"
 #' )
 #' }
-PowerEval <- function(Input.file,
+powerEval <- function(Input.file,
                       IP.file,
                       BamDir,
                       annoDir,
