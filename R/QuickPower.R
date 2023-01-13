@@ -13,7 +13,7 @@
 #' 'GSE46705', 'GSE55575', 'GSE115105', and 'GSE94613'.
 #' @param test_method A character indicating which DMR calling method to use. Options are "TRESS" and "exomePeak2". Default is "TRESS".
 #'
-#' @return A list of calculated power measurements that will be used as the input of functions \code{\link{writeToxlsx}}, \code{\link{writeToxlsx_strata}}, \code{\link{plotAll}}, \code{\link{plotRes}}, \code{\link{plotALL_Strata}}, and \code{\link{plotStrata}}.
+#' @return A list of calculated power measurements that will be used as the input of functions \code{\link{writeToxlsx}}, \code{\link{writeToxlsx_strata}}, \code{\link{plotAll}}, \code{\link{plotRes}}, \code{\link{plotAll_Strata}}, and \code{\link{plotStrata}}.
 #' Measurements include:
 #' \item{FDR}{The ratio of number of false positives to the number of positive discoveries.}
 #' \item{FDC}{The ratio of number of false positives to the number of true positives.}
