@@ -17,6 +17,5 @@
 #'
 #' @examples
 #' data(GSE46705_TRESS_res)
-
-
+#'
 NULL

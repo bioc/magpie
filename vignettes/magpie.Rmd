@@ -18,6 +18,12 @@ vignette: |
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r, echo=FALSE}
+htmltools::img(src = knitr::image_uri("magpie_hex.png"), 
+               alt = 'logo', 
+               style = 'position:absolute; top:0; left:0; padding:10px; height:280px')
+```
+
 \tableofContents
 
 # Introduction
@@ -43,8 +49,9 @@ install_github("https://github.com/dxd429/magpie",
 
 From Bioconductor:
 ```{r, eval = FALSE, warning=FALSE, message=FALSE}
-if (!requireNamespace("BiocManager", quietly = TRUE))
+if (!requireNamespace("BiocManager", quietly = TRUE)) {
     install.packages("BiocManager")
+}
 BiocManager::install("magpie")
 ```
 
@@ -62,7 +69,7 @@ magpie offers the function ``quickPower()`` for users who need quick power calcu
 
 ```{r, eval=TRUE, message=FALSE, warning=FALSE}
 library(magpie)
-power.test <- quickPower(dataset = "GSE46705")# Options are 'GSE46705', 'GSE55575', and 'GSE94613'.
+power.test <- quickPower(dataset = "GSE46705") # Options are 'GSE46705', 'GSE55575', and 'GSE94613'.
 ```
 
 Save results into .xlsx files:
