@@ -45,3 +45,5 @@ Suggests:
     rmarkdown,
     kableExtra
 VignetteBuilder: knitr
+URL: https://github.com/dxd429/magpie
+BugReports: https://github.com/dxd429/magpie/issues
