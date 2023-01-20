@@ -39,7 +39,7 @@ To establish the statistical rigor of MeRIP-Seq experiments, it is important to 
 ## Installation 
 From GitHub: 
 
-```{r, eval = TRUE, warning=FALSE, message=FALSE}
+```{r, eval = FALSE, warning=FALSE, message=FALSE}
 install.packages("devtools") # if you have not installed "devtools" package
 library(devtools)
 install_github("https://github.com/dxd429/magpie",
@@ -105,7 +105,7 @@ magpie requires paired input and IP .BAM files for each replicate of both condit
 
 For illustration purpose, we include a sample dataset (GSE46705) from a study investigating how METTL3-METTL14 complex mediates mammalian nuclear RNA N6-adenosine methylation in our experimental data package ``magpieData`` on GitHub, which can be installed with:
 
-```{r, eval= TRUE}
+```{r, eval= FALSE}
 install.packages("devtools") # if you have not installed "devtools" package
 library(devtools)
 install_github("https://github.com/dxd429/magpieData",
@@ -233,13 +233,19 @@ Again, we demonstrate these four functions with the previous output from `quickP
 
 ### plot FDR under sequencing depth 1x
 plotRes(power.test, depth_factor = 1, value_option = "FDR")
+```
 
+```{r, eval=TRUE, message=FALSE, warning=FALSE}
 ### plot all in a panel under sequencing depth 1x
 plotAll(power.test, depth_factor = 1)
+```
 
+```{r, eval=TRUE, message=FALSE, warning=FALSE}
 ### plot a FDR strata result
 plotStrata(power.test, value_option = "FDR")
+```
 
+```{r, eval=TRUE, message=FALSE, warning=FALSE}
 ### plot all strata results in a panel
 plotAll_Strata(power.test)
 ```
