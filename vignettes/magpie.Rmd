@@ -249,6 +249,7 @@ plotStrata(power.test, value_option = "FDR")
 ### plot all strata results in a panel
 plotAll_Strata(power.test)
 ```
+
 # Session info {.unnumbered}
 
 ```{r sessionInfo, echo=FALSE}
