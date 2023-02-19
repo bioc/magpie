@@ -1,5 +1,10 @@
-JProfileMLE.phitheta <- function(x, y, mu0, sx, sy) {
-    #### jointly obtain the MLE of phi and theta
+#### jointly obtain the MLE of phi and theta
+JProfileMLE.phitheta <- function(x,
+                                 y,
+                                 mu0,
+                                 sx,
+                                 sy) {
+
     log.lik <- function(para, yy, xx, mmu, sx, sy) {
         s <- para[1]
         t <- para[2]

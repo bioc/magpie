@@ -1,5 +1,12 @@
 ############### Functions related to Newton-Raphson based on NB
-log.lik_NB <- function(x, y, sx, sy, D, R, s, t) {
+log.lik_NB <- function(x,
+                       y,
+                       sx,
+                       sy,
+                       D,
+                       R,
+                       s,
+                       t) {
     ### log likelihood for a single region
     ###### To make sure phi ~ (0,1), theta >0, we reparameterize
     ###### phi = exp(s)/(1+exp(s)), theta = exp(t)
@@ -62,7 +69,14 @@ log.lik_NB <- function(x, y, sx, sy, D, R, s, t) {
 }
 
 
-Grad.NB <- function(x, y, sx, sy, D, R, s, t) {
+Grad.NB <- function(x,
+                    y,
+                    sx,
+                    sy,
+                    D,
+                    R,
+                    s,
+                    t) {
     ## Score of log.lik
     ###### To make sure phi ~ (0,1), theta >0, we reparameterize
     ###### phi = exp(s)/(1+exp(s)), theta = exp(t)
@@ -85,7 +99,14 @@ Grad.NB <- function(x, y, sx, sy, D, R, s, t) {
     return(U)
 }
 
-Hessian.NB <- function(x, y, sx, sy, D, R, s, t) {
+Hessian.NB <- function(x,
+                       y,
+                       sx,
+                       sy,
+                       D,
+                       R,
+                       s,
+                       t) {
     ### Hessian matrix of log.lik
     phi <- max(min(exp(s) / (1 + exp(s)), 0.99), exp(-20) / (1 + exp(-20)))
     theta <- max(min(exp(t), 1000), 0.0001)
@@ -139,7 +160,15 @@ Hessian.NB <- function(x, y, sx, sy, D, R, s, t) {
 }
 
 
-E.Hessian.NB <- function(x, y, sx, sy, D, R, s, t, M = 1e+05) {
+E.Hessian.NB <- function(x,
+                         y,
+                         sx,
+                         sy,
+                         D,
+                         R,
+                         s,
+                         t,
+                         M = 1e+05) {
     ### Calculate the expectation of Hessian matrix of log.lik
     phi <- max(min(exp(s) / (1 + exp(s)), 0.99), exp(-20) / (1 + exp(-20)))
     theta <- max(min(exp(t), 1000), 0.0001)
@@ -194,7 +223,14 @@ E.Hessian.NB <- function(x, y, sx, sy, D, R, s, t, M = 1e+05) {
 }
 
 
-dL.phi <- function(x, y, sx, sy, D, R, phi, theta) {
+dL.phi <- function(x,
+                   y,
+                   sx,
+                   sy,
+                   D,
+                   R,
+                   phi,
+                   theta) {
     ### partial derivative of loglik with respect to phi
     mu <- exp(D %*% R) / (1 + exp(D %*% R))
     mu[mu == 1] <- 0.9
@@ -236,7 +272,14 @@ dL.phi <- function(x, y, sx, sy, D, R, phi, theta) {
 }
 
 
-dL.theta <- function(x, y, sx, sy, D, R, phi, theta) {
+dL.theta <- function(x,
+                     y,
+                     sx,
+                     sy,
+                     D,
+                     R,
+                     phi,
+                     theta) {
     ### partial derivative of loglik with respect to theta
     mu <- exp(D %*% R) / (1 + exp(D %*% R))
     mu[mu == 1] <- 0.9
@@ -252,7 +295,14 @@ dL.theta <- function(x, y, sx, sy, D, R, phi, theta) {
 
 
 
-d2L.phi2 <- function(x, y, sx, sy, D, R, phi, theta) {
+d2L.phi2 <- function(x,
+                     y,
+                     sx,
+                     sy,
+                     D,
+                     R,
+                     phi,
+                     theta) {
     #### second order derivative
     mu <- exp(D %*% R) / (1 + exp(D %*% R))
     mu[mu == 1] <- 0.9
@@ -320,7 +370,14 @@ d2L.phi2 <- function(x, y, sx, sy, D, R, phi, theta) {
     tmp1 + tmp2 + tmp3 + tmp4 + tmp5
 }
 
-E.d2L.phi2 <- function(x, y, sx, sy, D, R, phi, theta,
+E.d2L.phi2 <- function(x,
+                       y,
+                       sx,
+                       sy,
+                       D,
+                       R,
+                       phi,
+                       theta,
                        M = 1e+05) {
     ### expectation of the second derivative
     mu <- exp(D %*% R) / (1 + exp(D %*% R))
@@ -428,7 +485,14 @@ E.d2L.phi2 <- function(x, y, sx, sy, D, R, phi, theta,
     tmp1 + tmp2 + tmp3 + tmp4 + tmp5
 }
 
-d2L.theta2 <- function(x, y, sx, sy, D, R, phi, theta) {
+d2L.theta2 <- function(x,
+                       y,
+                       sx,
+                       sy,
+                       D,
+                       R,
+                       phi,
+                       theta) {
     mu <- exp(D %*% R) / (1 + exp(D %*% R))
     mu[mu == 1] <- 0.9
     mu[mu == 0] <- 0.01
@@ -443,7 +507,14 @@ d2L.theta2 <- function(x, y, sx, sy, D, R, phi, theta) {
 }
 
 
-E.d2L.theta2 <- function(x, y, sx, sy, D, R, phi, theta,
+E.d2L.theta2 <- function(x,
+                         y,
+                         sx,
+                         sy,
+                         D,
+                         R,
+                         phi,
+                         theta,
                          M = 1e+05) {
     mu <- exp(D %*% R) / (1 + exp(D %*% R))
     mu[mu == 1] <- 0.9
@@ -495,7 +566,14 @@ E.d2L.theta2 <- function(x, y, sx, sy, D, R, phi, theta,
 }
 
 
-d2L.phitheta <- function(x, y, sx, sy, D, R, phi, theta) {
+d2L.phitheta <- function(x,
+                         y,
+                         sx,
+                         sy,
+                         D,
+                         R,
+                         phi,
+                         theta) {
     mu <- exp(D %*% R) / (1 + exp(D %*% R))
     mu[mu == 1] <- 0.9
     mu[mu == 0] <- 0.01
@@ -505,7 +583,14 @@ d2L.phitheta <- function(x, y, sx, sy, D, R, phi, theta) {
         } * sum((sx * (1 - mu)) / (1 + theta * sx) + (sy * mu) / (1 + theta * sy))
 }
 
-E.d2L.phitheta <- function(x, y, sx, sy, D, R, phi, theta) {
+E.d2L.phitheta <- function(x,
+                           y,
+                           sx,
+                           sy,
+                           D,
+                           R,
+                           phi,
+                           theta) {
     mu <- exp(D %*% R) / (1 + exp(D %*% R))
     mu[mu == 0] <- 0.01
     mu[mu == 1] <- 0.9
@@ -515,7 +600,8 @@ E.d2L.phitheta <- function(x, y, sx, sy, D, R, phi, theta) {
         } * sum((sx * (1 - mu)) / (1 + theta * sx) + (sy * mu) / (1 + theta * sy))
 }
 
-dmuj.R <- function(d, R) {
+dmuj.R <- function(d,
+                   R) {
     ### partial derivative of mu with respect to coefficient
     #### modified on Mar 17, 2021
     if (sum(d * R) > 700) {
@@ -532,7 +618,8 @@ dmuj.R <- function(d, R) {
     ####
 }
 
-dmu.R <- function(D, R) {
+dmu.R <- function(D,
+                  R) {
     ### derivative of mu with respect to coefficient
     # tmp = (1+exp(D%*%R))^{-2}*exp(D%*%R)
     # diag(as.vector(tmp))%*%D
@@ -548,7 +635,14 @@ dmu.R <- function(D, R) {
     ###
 }
 
-dL.R <- function(x, y, sx, sy, D, R, phi, theta) {
+dL.R <- function(x,
+                 y,
+                 sx,
+                 sy,
+                 D,
+                 R,
+                 phi,
+                 theta) {
     #### partial derivative of log.lik with respect to coefficient
     mu <- exp(D %*% R) / (1 + exp(D %*% R))
     mu[mu == 1] <- 0.9
@@ -580,10 +674,22 @@ dL.R <- function(x, y, sx, sy, D, R, phi, theta) {
 
 
 
-Fisher.R <- function(x, y, sx, sy, D, R, phi, theta, M = 1e+05) {
+Fisher.R <- function(x,
+                     y,
+                     sx,
+                     sy,
+                     D,
+                     R,
+                     phi,
+                     theta,
+                     M = 1e+05) {
     ### fisher information for coefficient given phi and theta
 
-    fx.1 <- function(this.x, this.mu, this.sx, phi, theta) {
+    fx.1 <- function(this.x,
+                     this.mu,
+                     this.sx,
+                     phi,
+                     theta) {
         (digamma((1 - this.mu) * (phi^
             {
                 -1
@@ -596,7 +702,11 @@ Fisher.R <- function(x, y, sx, sy, D, R, phi, theta, M = 1e+05) {
                 prob = 1 / (1 + theta * this.sx)
             )
     }
-    fx.2 <- function(this.x, this.mu, this.sx, phi, theta) {
+    fx.2 <- function(this.x,
+                     this.mu,
+                     this.sx,
+                     phi,
+                     theta) {
         (digamma((1 - this.mu) * (phi^
             {
                 -1
@@ -610,7 +720,11 @@ Fisher.R <- function(x, y, sx, sy, D, R, phi, theta, M = 1e+05) {
             )
     }
 
-    fy.1 <- function(this.y, this.mu, this.sy, phi, theta) {
+    fy.1 <- function(this.y,
+                     this.mu,
+                     this.sy,
+                     phi,
+                     theta) {
         (digamma(this.mu * (phi^
             {
                 -1
@@ -623,7 +737,11 @@ Fisher.R <- function(x, y, sx, sy, D, R, phi, theta, M = 1e+05) {
                 prob = 1 / (1 + theta * this.sy)
             )
     }
-    fy.2 <- function(this.y, this.mu, this.sy, phi, theta) {
+    fy.2 <- function(this.y,
+                     this.mu,
+                     this.sy,
+                     phi,
+                     theta) {
         (digamma(this.mu * (phi^
             {
                 -1
@@ -720,7 +838,14 @@ Fisher.R <- function(x, y, sx, sy, D, R, phi, theta, M = 1e+05) {
 
 
 
-d2L.Rtheta <- function(x, y, sx, sy, D, R, phi, theta) {
+d2L.Rtheta <- function(x,
+                       y,
+                       sx,
+                       sy,
+                       D,
+                       R,
+                       phi,
+                       theta) {
     # mu = exp(D%*%R)/(1 + exp(D%*%R))
     mu <- exp(D %*% R) / (1 + exp(D %*% R))
     mu[mu == 1] <- 0.9
@@ -733,7 +858,14 @@ d2L.Rtheta <- function(x, y, sx, sy, D, R, phi, theta) {
         sy / (1 + theta * sy))) %*% dmu.R(D, R))
 }
 
-E.d2L.Rtheta <- function(x, y, sx, sy, D, R, phi, theta) {
+E.d2L.Rtheta <- function(x,
+                         y,
+                         sx,
+                         sy,
+                         D,
+                         R,
+                         phi,
+                         theta) {
     mu <- exp(D %*% R) / (1 + exp(D %*% R))
     mu[mu == 1] <- 0.9
     mu[mu == 0] <- 0.01
@@ -746,7 +878,14 @@ E.d2L.Rtheta <- function(x, y, sx, sy, D, R, phi, theta) {
 }
 
 
-d2L.Rphi <- function(x, y, sx, sy, D, R, phi, theta) {
+d2L.Rphi <- function(x,
+                     y,
+                     sx,
+                     sy,
+                     D,
+                     R,
+                     phi,
+                     theta) {
     mu <- exp(D %*% R) / (1 + exp(D %*% R))
     mu[mu == 1] <- 0.9
     mu[mu == 0] <- 0.01
@@ -817,13 +956,25 @@ d2L.Rphi <- function(x, y, sx, sy, D, R, phi, theta) {
 
 
 
-E.d2L.Rphi <- function(x, y, sx, sy, D, R, phi, theta, M = 1e+05) {
+E.d2L.Rphi <- function(x,
+                       y,
+                       sx,
+                       sy,
+                       D,
+                       R,
+                       phi,
+                       theta,
+                       M = 1e+05) {
     mu <- exp(D %*% R) / (1 + exp(D %*% R))
     mu[mu == 1] <- 0.9
     mu[mu == 0] <- 0.01
 
     ## digamma
-    fx.1 <- function(this.x, this.mu, this.sx, phi, theta) {
+    fx.1 <- function(this.x,
+                     this.mu,
+                     this.sx,
+                     phi,
+                     theta) {
         (digamma((1 - this.mu) * (phi^
             {
                 -1
@@ -836,7 +987,11 @@ E.d2L.Rphi <- function(x, y, sx, sy, D, R, phi, theta, M = 1e+05) {
                 prob = 1 / (1 + theta * this.sx)
             )
     }
-    fy.1 <- function(this.y, this.mu, this.sy, phi, theta) {
+    fy.1 <- function(this.y,
+                     this.mu,
+                     this.sy,
+                     phi,
+                     theta) {
         (digamma(this.mu * (phi^
             {
                 -1
@@ -851,7 +1006,11 @@ E.d2L.Rphi <- function(x, y, sx, sy, D, R, phi, theta, M = 1e+05) {
     }
 
     ### trigamma
-    fx.2 <- function(this.x, this.mu, this.sx, phi, theta) {
+    fx.2 <- function(this.x,
+                     this.mu,
+                     this.sx,
+                     phi,
+                     theta) {
         (trigamma((1 - this.mu) * (phi^
             {
                 -1
@@ -864,7 +1023,11 @@ E.d2L.Rphi <- function(x, y, sx, sy, D, R, phi, theta, M = 1e+05) {
                 prob = 1 / (1 + theta * this.sx)
             )
     }
-    fy.2 <- function(this.y, this.mu, this.sy, phi, theta) {
+    fy.2 <- function(this.y,
+                     this.mu,
+                     this.sy,
+                     phi,
+                     theta) {
         (trigamma(this.mu * (phi^
             {
                 -1
@@ -948,7 +1111,8 @@ E.d2L.Rphi <- function(x, y, sx, sy, D, R, phi, theta, M = 1e+05) {
 }
 
 
-d2muj.R2 <- function(d, R) {
+d2muj.R2 <- function(d,
+                     R) {
     ### partial derivative of mu with respect to coefficient
     d <- matrix(d, nrow = length(R), ncol = 1)
     #### modified on Mar 17, 2021
@@ -965,7 +1129,14 @@ d2muj.R2 <- function(d, R) {
     ####
 }
 
-d2L.R2 <- function(x, y, sx, sy, D, R, phi, theta) {
+d2L.R2 <- function(x,
+                   y,
+                   sx,
+                   sy,
+                   D,
+                   R,
+                   phi,
+                   theta) {
     ### second order derivative of log.lik with respect to R
     mu <- exp(D %*% R) / (1 + exp(D %*% R))
     mu[mu == 1] <- 0.9
@@ -1031,12 +1202,24 @@ d2L.R2 <- function(x, y, sx, sy, D, R, phi, theta) {
 
 
 
-E.d2L.R2 <- function(x, y, sx, sy, D, R, phi, theta, M = 1e+4) {
+E.d2L.R2 <- function(x,
+                     y,
+                     sx,
+                     sy,
+                     D,
+                     R,
+                     phi,
+                     theta,
+                     M = 1e+4) {
     ### second order derivative of log.lik with respect to R
 
 
     ## digamma
-    fx.1 <- function(this.x, this.mu, this.sx, phi, theta) {
+    fx.1 <- function(this.x,
+                     this.mu,
+                     this.sx,
+                     phi,
+                     theta) {
         (digamma((1 - this.mu) * (phi^
             {
                 -1
@@ -1049,7 +1232,11 @@ E.d2L.R2 <- function(x, y, sx, sy, D, R, phi, theta, M = 1e+4) {
                 prob = 1 / (1 + theta * this.sx)
             )
     }
-    fy.1 <- function(this.y, this.mu, this.sy, phi, theta) {
+    fy.1 <- function(this.y,
+                     this.mu,
+                     this.sy,
+                     phi,
+                     theta) {
         (digamma(this.mu * (phi^
             {
                 -1
@@ -1065,7 +1252,11 @@ E.d2L.R2 <- function(x, y, sx, sy, D, R, phi, theta, M = 1e+4) {
 
 
     ### trigamma
-    fx.2 <- function(this.x, this.mu, this.sx, phi, theta) {
+    fx.2 <- function(this.x,
+                     this.mu,
+                     this.sx,
+                     phi,
+                     theta) {
         (trigamma((1 - this.mu) * (phi^
             {
                 -1
@@ -1078,7 +1269,11 @@ E.d2L.R2 <- function(x, y, sx, sy, D, R, phi, theta, M = 1e+4) {
                 prob = 1 / (1 + theta * this.sx)
             )
     }
-    fy.2 <- function(this.y, this.mu, this.sy, phi, theta) {
+    fy.2 <- function(this.y,
+                     this.mu,
+                     this.sy,
+                     phi,
+                     theta) {
         (trigamma(this.mu * (phi^
             {
                 -1
@@ -1158,7 +1353,14 @@ E.d2L.R2 <- function(x, y, sx, sy, D, R, phi, theta, M = 1e+4) {
 
 
 
-d.d2L_R2.theta <- function(x, y, sx, sy, D, R, phi, theta) {
+d.d2L_R2.theta <- function(x,
+                           y,
+                           sx,
+                           sy,
+                           D,
+                           R,
+                           phi,
+                           theta) {
     ### derivative of d2L.R2 with respect to theta, the result is a matrix
     mu <- exp(D %*% R) / (1 + exp(D %*% R))
     mu[mu == 1] <- 0.9
@@ -1175,7 +1377,14 @@ d.d2L_R2.theta <- function(x, y, sx, sy, D, R, phi, theta) {
         } - 1) * s
 }
 
-d.d2L_R2.phi <- function(x, y, sx, sy, D, R, phi, theta) {
+d.d2L_R2.phi <- function(x,
+                         y,
+                         sx,
+                         sy,
+                         D,
+                         R,
+                         phi,
+                         theta) {
     ### derivative of d2L.R2 with respect to phi, the result is a matrix
     mu <- exp(D %*% R) / (1 + exp(D %*% R))
     mu[mu == 1] <- 0.9

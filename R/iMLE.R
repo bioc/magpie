@@ -1,6 +1,14 @@
-iMLE <- function(i, X, Y, sx, sy, Ratio, D,
-                 max.iter = 10, eps = 1e-5) {
-    #### conduct MLE estimate based on NB model for a single site.
+#### conduct MLE estimate based on NB model for a single site.
+iMLE <- function(i,
+                 X,
+                 Y,
+                 sx,
+                 sy,
+                 Ratio,
+                 D,
+                 max.iter = 10,
+                 eps = 1e-5) {
+
     X.norm <- sweep(X, 2, sx, FUN = "/")
     Y.norm <- sweep(Y, 2, sy, FUN = "/")
     tmp.x <- sweep(X^2 - X, 2, sx^2, FUN = "/")

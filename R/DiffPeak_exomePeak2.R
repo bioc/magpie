@@ -1,4 +1,6 @@
-DiffPeak_exomePeak2 <- function(counts, nreps,
+#Differential peak calling with exomePeak2
+DiffPeak_exomePeak2 <- function(counts,
+                                nreps,
                                 model,
                                 design,
                                 sf = NULL) {

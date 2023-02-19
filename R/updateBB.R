@@ -1,4 +1,7 @@
-updateEstiPhibyBB <- function(counts, sf, design, model) {
+updateEstiPhibyBB <- function(counts,
+                              sf,
+                              design,
+                              model) {
     #### estimate dispersion using BB model
     counts.norm <- sweep(counts, 2, sf, FUN = "/")
     X.norm <- round(counts.norm[, seq(1, ncol(counts), 2)]) + 1

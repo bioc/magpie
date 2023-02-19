@@ -1,6 +1,11 @@
-CovR.parallel <- function(mat, sf, model, variable,
-                          Coef, phi, theta) {
-    #### Calculate Cov(R) in parallel
+#### Calculate Cov(R) in parallel
+CovR.parallel <- function(mat,
+                          sf,
+                          model,
+                          variable,
+                          Coef,
+                          phi,
+                          theta) {
     X <- mat[, seq(1, ncol(mat), 2)]
     sx <- sf[seq(1, ncol(mat), 2)]
     Y <- mat[, seq(2, ncol(mat), 2)]

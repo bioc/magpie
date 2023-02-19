@@ -1,4 +1,7 @@
-WaldTest <- function(Coef, Cov, Contrast, nullModel = "standN") {
+WaldTest <- function(Coef,
+                     Cov,
+                     Contrast,
+                     nullModel = "standN") {
     # simple Wald test for: Contrast^T%*%beta = 0
     #### nullModel: which null model to use to calculate p-value
     Contrast <- as.matrix(Contrast, ncol = 1)

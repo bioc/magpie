@@ -1,5 +1,6 @@
-meRatio <- function(counts, sf) {
-    ### calculate IP/Input ratio for each sample
+### calculate IP/Input ratio for each sample
+meRatio <- function(counts,
+                    sf) {
     ### counts: read counts for input1, ip1, input2, ip2, input3, ip3, ...
     x <- counts[, seq(1, ncol(counts), 2)] # input
     y <- counts[, seq(2, ncol(counts), 2)] # ip

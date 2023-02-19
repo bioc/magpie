@@ -1,4 +1,10 @@
-profileMLE.theta <- function(x, y, sx, sy, mu0, phi0, maximum) {
+profileMLE.theta <- function(x,
+                             y,
+                             sx,
+                             sy,
+                             mu0,
+                             phi0,
+                             maximum) {
     #### profile MLE of theta given all other parameters
     log.lik.theta <- function(theta, phi, yy, xx, mmu, sx, sy) {
         loglik <- sum(dnbinom(yy,

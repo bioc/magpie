@@ -1,4 +1,6 @@
-KL.qp <- function(Real.dist, Sim.dist) {
+## Calculate KL divergence
+KL.qp <- function(Real.dist,
+                  Sim.dist) {
     Real.range <- range(log(Real.dist[Real.dist > 0]))
     int <- seq(Real.range[1], Real.range[2], by = 0.1)
     if (max(int) > Real.range[2]) {
@@ -28,8 +30,11 @@ KL.qp <- function(Real.dist, Sim.dist) {
     return(KL.sTOr)
 }
 
-CompareSimRealCount <- function(Sim.Candidates, Real.Candidates, PLOT = TRUE,
-                                input.lim = 1000, ip.lim = 1500) {
+CompareSimRealCount <- function(Sim.Candidates,
+                                Real.Candidates,
+                                PLOT = TRUE,
+                                input.lim = 1000,
+                                ip.lim = 1500) {
     #### compare simulated and real candidate count density
     sim.X <- sweep(Sim.Candidates$counts[, seq(1, ncol(Sim.Candidates$counts), by = 2)], 2,
         Sim.Candidates$sf[seq(1, ncol(Sim.Candidates$counts), by = 2)],

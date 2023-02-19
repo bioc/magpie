@@ -1,5 +1,5 @@
+#### make sure matrix Hessian is inversible
 adjustHessian <- function(Hessian) {
-    #### make sure matrix Hessian is inversible
     rank.m <- rankMatrix(Hessian)
     if (rank.m < ncol(Hessian)) {
         tmp.svd <- svd(Hessian)

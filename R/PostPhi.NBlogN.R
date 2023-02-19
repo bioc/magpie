@@ -1,5 +1,12 @@
-PostPhi.NBlogN <- function(y, x, sy, sx, D, R, theta,
-                           mlphi, sdlphi) {
+PostPhi.NBlogN <- function(y,
+                           x,
+                           sy,
+                           sx,
+                           D,
+                           R,
+                           theta,
+                           mlphi,
+                           sdlphi) {
     ### only update phi while theta is fixed as its moment estimate
     log.lik <- function(phi, yy, xx, sy, sx, mmu, ttheta, mlphi,
                         sdlphi) {

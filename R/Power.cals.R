@@ -1,4 +1,7 @@
-FDR_t <- function(t0, padj, flag) {
+#Functions to calculate FDR, FDC, Power,and Precision
+FDR_t <- function(t0,
+                  padj,
+                  flag) {
     R <- sum(padj < t0, na.rm = TRUE)
     V <- sum(padj < t0 & (!flag), na.rm = TRUE)
     if (R == 0) {
@@ -9,7 +12,9 @@ FDR_t <- function(t0, padj, flag) {
     return(val)
 }
 
-FDC_t <- function(t0, padj, flag) {
+FDC_t <- function(t0,
+                  padj,
+                  flag) {
     TP <- sum(padj < t0 & (flag), na.rm = TRUE)
     V <- sum(padj < t0 & (!flag), na.rm = TRUE)
     if (TP == 0) {
@@ -20,7 +25,9 @@ FDC_t <- function(t0, padj, flag) {
     return(val)
 }
 
-TPR_t <- function(t0, padj, flag) {
+TPR_t <- function(t0,
+                  padj,
+                  flag) {
     R <- sum(flag, na.rm = TRUE)
     V <- sum(padj < t0 & (flag), na.rm = TRUE)
     if (R == 0) {
@@ -31,7 +38,9 @@ TPR_t <- function(t0, padj, flag) {
     return(val)
 }
 
-Precision_t <- function(t0, padj, flag) {
+Precision_t <- function(t0,
+                        padj,
+                        flag) {
     P <- sum(padj < t0, na.rm = TRUE)
     V <- sum(padj < t0 & (flag), na.rm = TRUE)
     if (P == 0) {
@@ -42,22 +51,30 @@ Precision_t <- function(t0, padj, flag) {
     return(val)
 }
 
-FDR_all <- function(padj.df, t0, flag) {
+FDR_all <- function(padj.df,
+                    t0,
+                    flag) {
     tmp.fdr <- mean(apply(padj.df, 2, FUN = function(padj) FDR_t(t0 = t0, padj, flag = flag)), na.rm = TRUE)
     return(tmp.fdr)
 }
 
-FDC_all <- function(padj.df, t0, flag) {
+FDC_all <- function(padj.df,
+                    t0,
+                    flag) {
     tmp.fdc <- mean(apply(padj.df, 2, FUN = function(padj) FDC_t(t0 = t0, padj, flag = flag)), na.rm = TRUE)
     return(tmp.fdc)
 }
 
-TPR_all <- function(padj.df, t0, flag) {
+TPR_all <- function(padj.df,
+                    t0,
+                    flag) {
     tmp.tpr <- mean(apply(padj.df, 2, FUN = function(padj) TPR_t(t0 = t0, padj, flag = flag)), na.rm = TRUE)
     return(tmp.tpr)
 }
 
-Precision_all <- function(padj.df, t0, flag) {
+Precision_all <- function(padj.df,
+                          t0,
+                          flag) {
     tmp.preci <- mean(apply(padj.df, 2, FUN = function(padj) Precision_t(t0 = t0, padj, flag = flag)), na.rm = TRUE)
     return(tmp.preci)
 }
@@ -114,7 +131,10 @@ Power.cal <- function(PVALS,
 
 ########### Strata
 
-FDR_allstrata <- function(padj, t0, flag, strata_list) {
+FDR_allstrata <- function(padj,
+                          t0,
+                          flag,
+                          strata_list) {
     val_allstr <- vapply(strata_list, FUN = function(x) {
         FDR_t(
             padj = padj[x],
@@ -125,7 +145,10 @@ FDR_allstrata <- function(padj, t0, flag, strata_list) {
     return(val_allstr)
 }
 
-FDC_allstrata <- function(padj, t0, flag, strata_list) {
+FDC_allstrata <- function(padj,
+                          t0,
+                          flag,
+                          strata_list) {
     val_allstr <- vapply(strata_list, FUN = function(x) {
         FDC_t(
             padj = padj[x],
@@ -136,7 +159,10 @@ FDC_allstrata <- function(padj, t0, flag, strata_list) {
     return(val_allstr)
 }
 
-TPR_allstrata <- function(padj, t0, flag, strata_list) {
+TPR_allstrata <- function(padj,
+                          t0,
+                          flag,
+                          strata_list) {
     val_allstr <- vapply(strata_list, FUN = function(x) {
         TPR_t(
             padj = padj[x],
@@ -147,7 +173,10 @@ TPR_allstrata <- function(padj, t0, flag, strata_list) {
     return(val_allstr)
 }
 
-Precision_allstrata <- function(padj, t0, flag, strata_list) {
+Precision_allstrata <- function(padj,
+                                t0,
+                                flag,
+                                strata_list) {
     val_allstr <- vapply(strata_list, FUN = function(x) {
         Precision_t(
             padj = padj[x],
@@ -158,7 +187,9 @@ Precision_allstrata <- function(padj, t0, flag, strata_list) {
     return(val_allstr)
 }
 
-FDR_iter <- function(iter_list, t0, flag) {
+FDR_iter <- function(iter_list,
+                     t0,
+                     flag) {
     val_alliter <- rowMeans(vapply(iter_list, FUN = function(x) {
         FDR_allstrata(
             padj = x[[1]],
@@ -172,7 +203,9 @@ FDR_iter <- function(iter_list, t0, flag) {
     return(val_alliter)
 }
 
-FDC_iter <- function(iter_list, t0, flag) {
+FDC_iter <- function(iter_list,
+                     t0,
+                     flag) {
     val_alliter <- rowMeans(vapply(iter_list, FUN = function(x) {
         FDC_allstrata(
             padj = x[[1]],
@@ -185,7 +218,9 @@ FDC_iter <- function(iter_list, t0, flag) {
     return(val_alliter)
 }
 
-TPR_iter <- function(iter_list, t0, flag) {
+TPR_iter <- function(iter_list,
+                     t0,
+                     flag) {
     val_alliter <- rowMeans(vapply(iter_list, FUN = function(x) {
         TPR_allstrata(
             padj = x[[1]],
@@ -198,7 +233,9 @@ TPR_iter <- function(iter_list, t0, flag) {
     return(val_alliter)
 }
 
-Precision_iter <- function(iter_list, t0, flag) {
+Precision_iter <- function(iter_list,
+                           t0,
+                           flag) {
     val_alliter <- rowMeans(vapply(iter_list, FUN = function(x) {
         Precision_allstrata(
             padj = x[[1]],

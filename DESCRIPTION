@@ -39,7 +39,7 @@ Imports:
     RColorBrewer,
     reshape2,
     TRESS
-Depends: R (>= 4.1.0)
+Depends: R (>= 4.2.0)
 Suggests: 
     knitr,
     rmarkdown,

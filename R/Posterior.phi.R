@@ -1,5 +1,9 @@
-Posterior.phi <- function(counts, sf, D, R,
-                          phi.mom, theta.mom) {
+Posterior.phi <- function(counts,
+                          sf,
+                          D,
+                          R,
+                          phi.mom,
+                          theta.mom) {
     ### this function is used to get posterior estimate of phi
     x <- counts[, seq(1, ncol(counts), 2)] # input
     y <- counts[, seq(2, ncol(counts), 2)] # ip

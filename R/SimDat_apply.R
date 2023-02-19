@@ -1,4 +1,4 @@
-### Simulate data wrapper
+### Simulate data for one iteration
 SimDat_apply <- function(nreps,
                          nsites,
                          mu,

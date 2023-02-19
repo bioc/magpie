@@ -1,6 +1,13 @@
-profileMLE.coef <- function(x, y, sx, sy, D, R.ini,
-                            phi0, theta0,
-                            max.iter = 10, eps = 1e-3) {
+profileMLE.coef <- function(x,
+                            y,
+                            sx,
+                            sy,
+                            D,
+                            R.ini,
+                            phi0,
+                            theta0,
+                            max.iter = 10,
+                            eps = 1e-3) {
     #### Newton-Raphson to obtain the profile MLE of R
     R.old <- R.ini
     loglik.old <- log.lik_NB(

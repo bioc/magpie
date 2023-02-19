@@ -1,6 +1,8 @@
-### DMR modeling and estimate
-CallDMRs.paramEsti <- function(counts, sf,
-                               model, variable,
+### Estimate required parameters from counts matrix
+CallDMRs.paramEsti <- function(counts,
+                               sf,
+                               model,
+                               variable,
                                shrkPhi = TRUE) {
     #### parameter estimation based on NB model
     Ratio <- meRatio(counts = counts, sf = sf) ## methylatinon ratio

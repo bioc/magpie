@@ -1,4 +1,6 @@
-MLE.parallel <- function(mat, sf, D) {
+MLE.parallel <- function(mat,
+                         sf,
+                         D) {
     ### Perform MLE estimation for NB model
     ### mat: read count matrix: input1, ip1, input2, ip2, ....
     ### sf: size factor of all samples

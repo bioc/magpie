@@ -1,4 +1,10 @@
-esti.nullsd.lphi <- function(mlphi, nreps, mu, sf.x, sf.y, theta,
+# Sd estimation for phi
+esti.nullsd.lphi <- function(mlphi,
+                             nreps,
+                             mu,
+                             sf.x,
+                             sf.y,
+                             theta,
                              nsim.use = 10) {
     log.lik.phi <- function(phi, theta, yy, xx, mmu, sx, sy) {
         loglik <- sum(dnbinom(yy,

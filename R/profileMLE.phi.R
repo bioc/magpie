@@ -1,4 +1,10 @@
-profileMLE.phi <- function(x, y, sx, sy, mu0, theta0, maximum) {
+profileMLE.phi <- function(x,
+                           y,
+                           sx,
+                           sy,
+                           mu0,
+                           theta0,
+                           maximum) {
     #### profile MLE of Phi given all other parameters
     log.lik.phi <- function(phi, theta, yy, xx, mmu, sx, sy) {
         loglik <- sum(dnbinom(yy,
