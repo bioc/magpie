@@ -8,7 +8,6 @@ iCovR <- function(i,
                   Coef,
                   phi,
                   theta) {
-
     if (!is.na(phi[i])) {
         R.old <- Coef[i, ]
         Hessian.old <- E.d2L.R2(

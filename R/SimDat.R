@@ -1,4 +1,4 @@
-#Function to simulate data
+# Function to simulate data
 SimDat <- function(nreps,
                    nsites,
                    mu,

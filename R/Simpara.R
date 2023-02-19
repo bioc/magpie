@@ -1,4 +1,4 @@
-#Simulate parameters given estimated parameters
+# Simulate parameters given estimated parameters
 Simpara <- function(ParaEsti,
                     idx.dmr,
                     nreps,

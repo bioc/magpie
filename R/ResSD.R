@@ -1,4 +1,4 @@
-#Simulate and calculate evaluation metrics for a given sequencing depth
+# Simulate and calculate evaluation metrics for a given sequencing depth
 ResSD <- function(N.reps,
                   ParaEsti,
                   idx.dmr,

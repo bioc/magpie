@@ -8,7 +8,6 @@ iMLE <- function(i,
                  D,
                  max.iter = 10,
                  eps = 1e-5) {
-
     X.norm <- sweep(X, 2, sx, FUN = "/")
     Y.norm <- sweep(Y, 2, sy, FUN = "/")
     tmp.x <- sweep(X^2 - X, 2, sx^2, FUN = "/")

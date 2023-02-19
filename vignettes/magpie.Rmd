@@ -19,9 +19,11 @@ vignette: |
 ---
 
 ```{r, echo=FALSE}
-htmltools::img(src = knitr::image_uri("magpie_hex.png"), 
-               alt = 'logo', 
-               style = 'position:absolute; top:0; left:0; padding:10px; height:280px')
+htmltools::img(
+    src = knitr::image_uri("magpie_hex.png"),
+    alt = "logo",
+    style = "position:absolute; top:0; left:0; padding:10px; height:280px"
+)
 ```
 
 \tableofContents

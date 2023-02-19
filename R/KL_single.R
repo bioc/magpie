@@ -1,4 +1,4 @@
-#calculate KL divergence for single iteration
+# calculate KL divergence for single iteration
 KL_single <- function(nreps,
                       nsites,
                       mu,

@@ -1,4 +1,4 @@
-#Functions to calculate FDR, FDC, Power,and Precision
+# Functions to calculate FDR, FDC, Power,and Precision
 FDR_t <- function(t0,
                   padj,
                   flag) {

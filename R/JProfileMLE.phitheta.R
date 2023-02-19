@@ -4,7 +4,6 @@ JProfileMLE.phitheta <- function(x,
                                  mu0,
                                  sx,
                                  sy) {
-
     log.lik <- function(para, yy, xx, mmu, sx, sy) {
         s <- para[1]
         t <- para[2]

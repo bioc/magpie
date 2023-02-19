@@ -1,4 +1,4 @@
-#Get quantile cutoffs based in mean input values
+# Get quantile cutoffs based in mean input values
 Getcutoffs <- function(Counts) {
     input_counts <- Counts[, seq(1, ncol(Counts), 2)]
     mean_inputs <- rowMeans(input_counts)
