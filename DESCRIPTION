@@ -38,12 +38,15 @@ Imports:
     openxlsx,
     RColorBrewer,
     reshape2,
-    TRESS
+    TRESS,
+    BiocGenerics
 Depends: R (>= 4.2.0)
 Suggests: 
     knitr,
     rmarkdown,
-    kableExtra
+    kableExtra,
+    RUnit,
+    TBX20BamSubset
 VignetteBuilder: knitr
 URL: https://github.com/dxd429/magpie
 BugReports: https://github.com/dxd429/magpie/issues

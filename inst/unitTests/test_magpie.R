@@ -2,8 +2,6 @@
 
 #test PowerEval
 test_PowerEval <- function() {
-  if (!require("TBX20BamSubset", quietly = TRUE))
-  BiocManager::install("TBX20BamSubset")
   library(TBX20BamSubset)
   power.test <- powerEval(
     Input.file = as.character(sub(".*/", "", getBamFileList()))[c(1,2,3,3)],

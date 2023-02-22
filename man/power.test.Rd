@@ -16,5 +16,6 @@ Two replicates of wild type (WT) and two replicates of knockdown (KD) of complex
 }
 \examples{
 data(GSE46705_TRESS_res)
+
 }
 \keyword{datasets}
