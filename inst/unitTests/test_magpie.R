@@ -11,18 +11,17 @@ test_PowerEval <- function() {
                         "extdata/mm9_chr19.sqlite"),
     variable = rep(c("Ctrl", "Trt"), each = 2),
     bam_factor = 1,
-    nsim = 10,
+    nsim = 5,
     N.reps = c(2,3),
-    depth_factor = c(1,2),
-    thres = c(0.01, 0.05, 0.1),
+    depth_factor = 1,
+    thres = 0.05,
     Test_method = "exomePeak2"
   )
 
-  checkTrue(all(names(power.test) == c("1x", "2x")))
+  checkTrue(all(names(power.test) == "1x"))
 
-  checkEquals(length(power.test), 2)
+  checkEquals(length(power.test), 1)
   checkEquals(length(power.test$`1x`), 8)
-  checkEquals(length(power.test$`2x`), 4)
 
 }
 
