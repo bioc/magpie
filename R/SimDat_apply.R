@@ -51,6 +51,12 @@ SimDat_apply <- function(nreps,
             IP = rep(c("Input", "IP"), sum(nreps)),
             Trt = rep(c("Ctrl", "Trt"), 2 * nreps)
         )
+        design.exome2$Reps <- factor(design.exome2$Reps,
+                                     levels = paste0("Rep", seq_len(nreps[1])))
+        design.exome2$IP <- factor(design.exome2$IP,
+                                     levels = c("Input", "IP"))
+        design.exome2$Trt <- factor(design.exome2$Trt,
+                                     levels = c("Ctrl", "Trt"))
         model.exome2 <- ~ Reps + IP + Trt + IP * Trt
         model.matrix(model.exome2, design.exome2)
         res.test <- DiffPeak_exomePeak2(

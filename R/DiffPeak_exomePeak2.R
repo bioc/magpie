@@ -19,11 +19,6 @@ DiffPeak_exomePeak2 <- function(counts,
     sizeFactors(dds) <- sf
     dds <- DESeq(dds, test = "Wald")
 
-    ###
-    # dds <- nbinomWaldTest(dds)
-
-    ###
-
     resultsNames(dds) # name of each variable in the design matrix used for DESeq
     res <- DESeq2::results(dds, name = "IPIP.TrtTrt")
     dat <- data.frame(padj = res$padj, stat = res$stat)
