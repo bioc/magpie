@@ -1,7 +1,7 @@
 Package: magpie
 Type: Package
 Title: MeRIP-Seq data Analysis for Genomic Power Investigation and Evaluation
-Version: 0.99.9
+Version: 0.99.10
 Authors@R: c(person(given = "Daoyu",
                     family = "Duan",
                     role = c("aut", "cre"),
@@ -46,7 +46,7 @@ Suggests:
     kableExtra,
     RUnit,
     TBX20BamSubset,
-    BiocGenerics
+    BiocGenerics,
     BiocStyle
 VignetteBuilder: knitr
 URL: https://github.com/dxd429/magpie
