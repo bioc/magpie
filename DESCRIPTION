@@ -1,7 +1,7 @@
 Package: magpie
 Type: Package
 Title: MeRIP-Seq data Analysis for Genomic Power Investigation and Evaluation
-Version: 0.99.10
+Version: 1.0.0
 Authors@R: c(person(given = "Daoyu",
                     family = "Duan",
                     role = c("aut", "cre"),
