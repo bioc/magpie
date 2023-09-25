@@ -1,9 +1,18 @@
 # Get strata index based on quantile cutoffs
 GetStrata <- function(Counts,
-                      counts_all) {
-    input_counts <- Counts[, seq(1, ncol(Counts), 2)]
-    mean_inputs <- rowMeans(input_counts)
-    cutoffs <- as.vector(quantile(mean_inputs, probs = seq(0.25, 0.75, 0.25)))
+                      counts_all,
+                      sig_ind) {
+    if (length(sig_ind) == 1){
+      Counts <- matrix(Counts, nrow = 1)
+      input_counts <- Counts[, seq(1, ncol(Counts), 2)]
+      input_counts <- matrix(input_counts, nrow = 1)
+      mean_inputs <- rowMeans(input_counts)
+      cutoffs <- as.vector(quantile(mean_inputs, probs = seq(0.25, 0.75, 0.25)))
+    }else{
+      input_counts <- Counts[, seq(1, ncol(Counts), 2)]
+      mean_inputs <- rowMeans(input_counts)
+      cutoffs <- as.vector(quantile(mean_inputs, probs = seq(0.25, 0.75, 0.25)))
+    } 
     input_counts_all <- counts_all[, seq(1, ncol(counts_all), 2)]
     mean_inputs_all <- rowMeans(input_counts_all)
     strata_list <- list(

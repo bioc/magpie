@@ -67,11 +67,12 @@ SimDat_apply <- function(nreps,
         #####
     }
     sig_ind <- which(res.test$padj < 0.05)
-
+   
     counts_test <- res.sim$counts[sig_ind, ]
-    # print(sig_ind)
-    strata_list <- GetStrata(counts_test, res.sim$counts)
-    cutoffs <- Getcutoffs(counts_test)
+    #print(sig_ind)
+
+    strata_list <- GetStrata(counts_test, res.sim$counts, sig_ind)
+    cutoffs <- Getcutoffs(counts_test, sig_ind)
     test_res[[1]] <- res.test$padj
     test_res[[2]] <- strata_list
     test_res[[3]] <- cutoffs

@@ -3,6 +3,7 @@
 #test PowerEval
 test_PowerEval <- function() {
   library(TBX20BamSubset)
+  set.seed(123)
   power.test <- powerEval(
     Input.file = as.character(sub(".*/", "", getBamFileList()))[c(1,2,3,3)],
     IP.file = as.character(sub(".*/", "", getBamFileList()))[c(4,5,6,6)],
@@ -28,6 +29,7 @@ test_PowerEval <- function() {
 
 #test quickPower and plot functions
 test_quickPower <- function() {
+  set.seed(123)
   qp <- quickPower(dataset = "GSE94613")
 
   checkTrue(all(names(qp) == c("1x", "2x", "5x")))
