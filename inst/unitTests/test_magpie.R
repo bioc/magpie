@@ -1,30 +1,30 @@
 ##Unit Test using RUnit
 
 #test PowerEval
-# test_PowerEval <- function() {
-#   library(TBX20BamSubset)
-#   set.seed(123)
-#   power.test <- powerEval(
-#     Input.file = as.character(sub(".*/", "", getBamFileList()))[c(1,2,3,3)],
-#     IP.file = as.character(sub(".*/", "", getBamFileList()))[c(4,5,6,6)],
-#     BamDir = as.character(sub("/[^/]*$", "", getBamFileList()))[1],
-#     annoDir = file.path(system.file(package = "magpie"),
-#                         "extdata/mm9_chr19.sqlite"),
-#     variable = rep(c("Ctrl", "Trt"), each = 2),
-#     bam_factor = 1,
-#     nsim = 5,
-#     N.reps = c(2,3),
-#     depth_factor = 1,
-#     thres = 0.05,
-#     Test_method = "exomePeak2"
-#   )
-# 
-#   checkTrue(all(names(power.test) == "1x"))
-# 
-#   checkEquals(length(power.test), 1)
-#   checkEquals(length(power.test$`1x`), 8)
-# 
-# }
+test_PowerEval <- function() {
+  library(TBX20BamSubset)
+  set.seed(123)
+  power.test <- powerEval(
+    Input.file = as.character(sub(".*/", "", getBamFileList()))[c(1,2,3,3)],
+    IP.file = as.character(sub(".*/", "", getBamFileList()))[c(4,5,6,6)],
+    BamDir = as.character(sub("/[^/]*$", "", getBamFileList()))[1],
+    annoDir = file.path(system.file(package = "magpie"),
+                        "extdata/mm9_chr19.sqlite"),
+    variable = rep(c("Ctrl", "Trt"), each = 2),
+    bam_factor = 1,
+    nsim = 5,
+    N.reps = c(2,3),
+    depth_factor = 1,
+    thres = 0.05,
+    Test_method = "exomePeak2"
+  )
+
+  checkTrue(all(names(power.test) == "1x"))
+
+  checkEquals(length(power.test), 1)
+  checkEquals(length(power.test$`1x`), 8)
+
+}
 
 
 #test quickPower and plot functions

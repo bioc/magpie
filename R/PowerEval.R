@@ -15,6 +15,7 @@
 #' @param N.reps A vector of integers indicating the numbers of replicates to simulate, in both groups. Default is c(2,3,5).
 #' @param depth_factor A vector of numerical values indicating how much sequencing depth of the provided data will be increased in simulations. For example, 2 means doubling the original sequencing depth. Default is c(1,2,5).
 #' @param thres A vector of numerical values indicating the p-value thresholds used in power calculation. Default is c(0.01, 0.05, 0.1, 0.2).
+#' @param dmrProp A numrical value indicating the DMR proportion in the simulation. Default is NULL, and DMR proportion is estimated from the data in .BAM files.
 #' @param Test_method A character indicating which DMR calling method to use. Options are "TRESS" and "exomePeak2". Default is "TRESS".
 #'
 #' @return A list of calculated power measurements that will be used as the input of functions \code{\link{writeToxlsx}}, \code{\link{writeToxlsx_strata}}, \code{\link{plotAll}}, \code{\link{plotRes}}, \code{\link{plotAll_Strata}}, and \code{\link{plotStrata}}.
@@ -67,6 +68,7 @@ powerEval <- function(Input.file,
                       N.reps = c(2, 3, 5),
                       depth_factor = c(1, 2, 5),
                       thres = c(0.01, 0.05, 0.1, 0.2),
+                      dmrProp = NULL,
                       Test_method = "TRESS") {
     ######## 1. Bam to bin-level data
     if (length(IP.file) == 0) {
@@ -160,11 +162,23 @@ powerEval <- function(Input.file,
     DMR.test <- TRESS::TRESS_DMRtest(DMR = ParaEsti, contrast = c(0, 1))
     message("Parameters estimation has finished...")
     idx.dmr <- which(DMR.test$padj < 0.05)
+    #####adjust DMR prop according to user settings
+    if (!is.null(dmrProp)){
+      currentProp <- length(idx.dmr)/length(DMR.test$padj)
+      if (currentProp > dmrProp){
+        newLength <- round(dmrProp * length(DMR.test$padj))
+        idx.dmr.new <- sample(idx.dmr, newLength)
+      } else {
+        idx.dmr.new <- idx.dmr
+      }
+    } else {
+      idx.dmr.new <- idx.dmr
+    }
     ########## Extra. KL Selection
     KL.list <- KL_cal(
         N_reps = N.reps,
         ParaEsti = ParaEsti,
-        idx.dmr = idx.dmr,
+        idx.dmr = idx.dmr.new,
         Candidates = Candidates,
         sd_multi = 1,
         nsim = 100
@@ -185,7 +199,7 @@ powerEval <- function(Input.file,
         ResSD(
             N.reps = N.reps,
             ParaEsti = ParaEsti,
-            idx.dmr = idx.dmr,
+            idx.dmr = idx.dmr.new,
             nsim = nsim,
             Candidates = Candidates,
             sd_multi,

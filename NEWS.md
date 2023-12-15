@@ -1,3 +1,3 @@
-# magpie 1.1.3
+# magpie 0.99.10
 
 * Added a `NEWS.md` file to track changes to the package.
